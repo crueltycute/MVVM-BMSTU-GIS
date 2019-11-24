@@ -76,6 +76,8 @@ public class NewsFragment extends Fragment {
         mNewsViewModel
                 .getNews()
                 .observe(getViewLifecycleOwner(), observer);
+
+        mNewsViewModel.refresh();
     }
 
     private void onItemClick(News i) {
