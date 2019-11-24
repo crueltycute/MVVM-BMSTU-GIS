@@ -6,25 +6,25 @@
         android:id="@+id/home"
         android:checkable="true"
         android:icon="@drawable/ic_whatshot_black_24dp"
-        android:title="News" />
+        android:title="@string/news" />
     <item
         android:id="@+id/account"
         android:checkable="true"
         android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="Account" />
+        android:title="@string/account" />
     <item
         android:id="@+id/navigation"
         android:checkable="true"
         android:icon="@drawable/ic_map_black_24dp"
-        android:title="Navigation" />
+        android:title="@string/navigation" />
     <item
         android:id="@+id/settings"
         android:checkable="true"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings" />
+        android:title="@string/settings" />
     <item
         android:id="@+id/logout"
         android:checkable="true"
         android:icon="@drawable/ic_exit_to_app_black_24dp"
-        android:title="Logout" />
+        android:title="@string/logout" />
 </menu>
