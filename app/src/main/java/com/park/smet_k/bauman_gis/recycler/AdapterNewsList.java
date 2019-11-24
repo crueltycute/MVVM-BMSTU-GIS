@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AdapterNewsList extends RecyclerView.Adapter<AdapterNewsList.NewsRecyclerViewHolder> {
     private final LayoutInflater layoutInflater;
-    private final List<News> data;
+    private List<News> data;
     private final OnItemClickListner<News> onItemClickListener;
 
 
@@ -48,6 +48,11 @@ public class AdapterNewsList extends RecyclerView.Adapter<AdapterNewsList.NewsRe
     public void add(News newData) {
         data.add(0, newData);
         notifyItemInserted(0);
+    }
+
+    public void setNews(List<News> newsList) {
+        data = newsList;
+        notifyDataSetChanged();
     }
 
     final static class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {

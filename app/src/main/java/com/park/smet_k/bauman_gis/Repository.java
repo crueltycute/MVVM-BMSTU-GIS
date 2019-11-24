@@ -67,7 +67,7 @@ public class Repository {
         return instance;
     }
 
-    private Repository(Context context) {
+    public Repository(Context context) {
         // DBWorker init
         this.dbWorker = new DBWorker(context);
         this.prefs = context.getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);

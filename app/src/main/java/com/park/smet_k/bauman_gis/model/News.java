@@ -5,12 +5,12 @@ import java.util.Date;
 public class News {
     private String title;
     private String payload;
-    private Date time;
+//    private Date time;
 
-    public News(String title, String payload, Date time) {
+    public News(String title, String payload) {
         this.title = title;
         this.payload = payload;
-        this.time = time;
+//        this.time = time;
     }
 
     public News() {
@@ -24,9 +24,9 @@ public class News {
         return payload;
     }
 
-    public Date getTime() {
-        return time;
-    }
+//    public Date getTime() {
+//        return time;
+//    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -36,7 +36,7 @@ public class News {
         this.payload = payload;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
+//    public void setTime(Date time) {
+//        this.time = time;
+//    }
 }
