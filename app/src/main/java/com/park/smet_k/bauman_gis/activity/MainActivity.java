@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.park.smet_k.bauman_gis.M_login.LoginActivity;
 import com.park.smet_k.bauman_gis.M_navigator.NavigatorFragment;
 import com.park.smet_k.bauman_gis.M_news.NewsFragment;
 import com.park.smet_k.bauman_gis.R;

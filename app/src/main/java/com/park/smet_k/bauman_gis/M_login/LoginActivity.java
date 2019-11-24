@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.activity;
+package com.park.smet_k.bauman_gis.M_login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.Repository;
+import com.park.smet_k.bauman_gis.activity.MainActivity;
 import com.park.smet_k.bauman_gis.model.User;
 
 import java.util.Objects;
