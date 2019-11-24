@@ -16,13 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.park.smet_k.bauman_gis.App;
+//import com.park.smet_k.bauman_gis.App;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+//import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.fragments.AccountFragment;
-import com.park.smet_k.bauman_gis.fragments.NavigatorFragment;
-import com.park.smet_k.bauman_gis.fragments.ServerNewsFragment;
+import com.park.smet_k.bauman_gis.M_navigator.NavigatorFragment;
+import com.park.smet_k.bauman_gis.M_news.NewsFragment;
 import com.park.smet_k.bauman_gis.fragments.SettingsFragment;
 import com.park.smet_k.bauman_gis.model.RouteModel;
 import com.park.smet_k.bauman_gis.model.User;
@@ -80,21 +80,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getUserRoutes();
 
         // скачиваем карту
-        Log.d(LOG_TAG, "INIT map");
-        AppComponent.getInstance().GetNewsInit();
-
-        AppComponent.getInstance().GetAllStairsInit();
-//        AppComponent.getInstance().GetAllStairsLinksInit();
-////        AppComponent.getInstance().InitStairsGraph();
-        AppComponent.getInstance().LevelsInit();
-        AppComponent.getInstance().MapPointsInit();
+//        Log.d(LOG_TAG, "INIT map");
+//        Repository.getInstance().GetNewsInit();
+//
+//        Repository.getInstance().GetAllStairsInit();
+//        Repository.getInstance().LevelsInit();
+//        Repository.getInstance().MapPointsInit();
 
         // показываем новостную ленту
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, ServerNewsFragment.newInstance())
+                .replace(R.id.container, NewsFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
-
     }
 
     private void getUserRoutes() {
@@ -111,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (body != null) {
                     Log.d(LOG_TAG, "--- pullRoutes OK body != null --- id = " + userId.toString());
                     // очищаю таблицу
-                    AppComponent.getInstance().dbWorker.truncate(dbHelper);
+//                    Repository.getInstance().dbWorker.truncate(dbHelper);
 
                     for (RouteModel i : body) {
-                        AppComponent.getInstance().dbWorker.insert(dbHelper, i.getPoint_from(), i.getPoint_to());
+//                        Repository.getInstance().dbWorker.insert(dbHelper, i.getPoint_from(), i.getPoint_to());
                     }
 
                 } else {
@@ -137,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
         // avoid static error
-        AppComponent.getInstance().bgisApi.pullRoutes(userId).enqueue(callback);
+//        Repository.getInstance().bgisApi.pullRoutes(userId).enqueue(callback);
     }
 
     private void getUserInfo() {
@@ -179,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             };
 
             // avoid static error
-            AppComponent.getInstance().bgisApi.getUserInfo(userId).enqueue(callback);
+//            Repository.getInstance().bgisApi.getUserInfo(userId).enqueue(callback);
         } else {
             NavigationView navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.home: {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, ServerNewsFragment.newInstance())
+                        .replace(R.id.container, NewsFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
 

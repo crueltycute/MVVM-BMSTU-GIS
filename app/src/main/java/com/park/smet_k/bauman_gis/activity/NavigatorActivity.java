@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.fragments.RouteFragment;
 import com.park.smet_k.bauman_gis.fragments.RoutesListFragment;
@@ -80,7 +80,7 @@ public class NavigatorActivity extends AppCompatActivity {
             }
 
             // заносим данные в БД
-            AppComponent.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
+            Repository.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
 
             // пушим на сервер
             Callback<RouteModel> callback = new Callback<RouteModel>() {
@@ -120,7 +120,7 @@ public class NavigatorActivity extends AppCompatActivity {
 
             Integer userId = preferences.getInt(KEY_OAUTH, -1);
             // avoid static error
-            AppComponent.getInstance().bgisApi.pushRoute(new RouteModel(userId, cur_from, cur_to)).enqueue(callback);
+            Repository.getInstance().bgisApi.pushRoute(new RouteModel(userId, cur_from, cur_to)).enqueue(callback);
 
             toggleState();
         });

@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.model.User;
 
 import java.util.Objects;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView loginSwitch;
 
 
-//    private final BgisApi bgisApi = AppComponent.getInstance().bgisApi;
+//    private final BgisApi bgisApi = Repository.getInstance().bgisApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -264,7 +264,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
 
         // avoid static error
-        AppComponent.getInstance().bgisApi.userLogin(new User(email_str, password_str)).enqueue(callback);
+        Repository.getInstance().bgisApi.userLogin(new User(email_str, password_str)).enqueue(callback);
         // enqueue работает в отдельном потоке
     }
 
@@ -334,6 +334,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
 
         // avoid static error
-        AppComponent.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
     }
 }

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.activity.MainActivity;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.model.Message;
 
@@ -61,7 +61,7 @@ public class SettingsFragment extends Fragment {
 //        Button reset = getActivity().findViewById(R.id.clear_button);
 
         reset.setOnClickListener(v -> {
-            AppComponent.getInstance().dbWorker.truncate(dbWorker);
+            Repository.getInstance().dbWorker.truncate(dbWorker);
             SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
 //            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
 
@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment {
             };
 
             // avoid static error
-            AppComponent.getInstance().bgisApi.deleteHistory(userId).enqueue(callback);
+            Repository.getInstance().bgisApi.deleteHistory(userId).enqueue(callback);
 
             Toast toast = Toast.makeText(getActivity(),
                     "История маршрутов очищена!",

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.model.Route;
 import com.park.smet_k.bauman_gis.recycler.AdapterRoutesList;
@@ -102,7 +102,7 @@ public class RoutesListFragment extends Fragment {
 
         dbHelper = new DBWorker(getActivity());
 
-        List<Route> listToShow = AppComponent.getInstance().dbWorker.select(dbHelper, "all", "");
+        List<Route> listToShow = Repository.getInstance().dbWorker.select(dbHelper, "all", "");
 
         AdapterRoutesList numbersAdapter = new AdapterRoutesList(getContext(), this::onItemClick);
 

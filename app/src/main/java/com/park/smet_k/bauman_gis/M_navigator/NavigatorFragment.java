@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.fragments;
+package com.park.smet_k.bauman_gis.M_navigator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,8 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.activity.MainActivity;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
+import com.park.smet_k.bauman_gis.fragments.RouteFragment;
+import com.park.smet_k.bauman_gis.fragments.RoutesListFragment;
 import com.park.smet_k.bauman_gis.model.RouteModel;
 import com.park.smet_k.bauman_gis.model.RoutePoint;
 
@@ -65,19 +67,18 @@ public class NavigatorFragment extends Fragment {
 
         final Button startNewActivityBtn = view.findViewById(R.id.Calculate);
 
-        // создаем объект для создания и управления версиями БД
-        dbHelper = new DBWorker(getActivity());
-
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.TopFrame, RoutesListFragment.newInstance())
                 .commit();
 
+        // создаем объект для создания и управления версиями БД
+        dbHelper = new DBWorker(getActivity());
 
         startNewActivityBtn.setOnClickListener(v -> {
             EditText check_edit = view.findViewById(R.id.InputFrom);
             cur_from = check_edit.getText().toString();
 
-            if (!AppComponent.getInstance().PointsMap.containsKey(cur_from)) {
+            if (!Repository.getInstance().PointsMap.containsKey(cur_from)) {
                 check_edit.setError("Unknown value");
                 check_edit.requestFocus();
                 Toast toast = Toast.makeText(getContext(),
@@ -90,7 +91,7 @@ public class NavigatorFragment extends Fragment {
             check_edit = view.findViewById(R.id.InputTo);
             cur_to = check_edit.getText().toString();
 
-            if (!AppComponent.getInstance().PointsMap.containsKey(cur_to)) {
+            if (!Repository.getInstance().PointsMap.containsKey(cur_to)) {
                 check_edit.setError("Unknown value");
                 check_edit.requestFocus();
                 Toast toast = Toast.makeText(getContext(),
@@ -100,8 +101,8 @@ public class NavigatorFragment extends Fragment {
                 return;
             }
 
-            RoutePoint pointFrom = AppComponent.getInstance().PointsMap.get(cur_from);
-            RoutePoint pointTo = AppComponent.getInstance().PointsMap.get(cur_to);
+            RoutePoint pointFrom = Repository.getInstance().PointsMap.get(cur_from);
+            RoutePoint pointTo = Repository.getInstance().PointsMap.get(cur_to);
 
             if (pointFrom.getName().equals(pointTo.getName())) {
                 Toast toast = Toast.makeText(getContext(),
@@ -111,7 +112,7 @@ public class NavigatorFragment extends Fragment {
                 return;
             }
 
-            if (AppComponent.getInstance().StairsGraph == null || AppComponent.getInstance().StairsGraph.getGraphSize() == 0) {
+            if (Repository.getInstance().StairsGraph == null || Repository.getInstance().StairsGraph.getGraphSize() == 0) {
                 Toast toast = Toast.makeText(getContext(),
                         "stairs graph empty",
                         Toast.LENGTH_SHORT);
@@ -119,7 +120,7 @@ public class NavigatorFragment extends Fragment {
                 return;
             }
 
-            if (AppComponent.getInstance().StairsArray == null || AppComponent.getInstance().StairsArray.size() == 0) {
+            if (Repository.getInstance().StairsArray == null || Repository.getInstance().StairsArray.size() == 0) {
                 Toast toast = Toast.makeText(getContext(),
                         "stairs array empty",
                         Toast.LENGTH_SHORT);
@@ -128,7 +129,7 @@ public class NavigatorFragment extends Fragment {
             }
 
             // заносим данные в БД
-            AppComponent.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
+            Repository.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
 
             // пушим на сервер
             Callback<RouteModel> callback = new Callback<RouteModel>() {
@@ -160,7 +161,7 @@ public class NavigatorFragment extends Fragment {
             // avoid static error
             assert pointFrom != null;
             assert pointTo != null;
-            AppComponent.getInstance().bgisApi.pushRoute(new RouteModel(userId, pointFrom.getName(), pointTo.getName())).enqueue(callback);
+            Repository.getInstance().bgisApi.pushRoute(new RouteModel(userId, pointFrom.getName(), pointTo.getName())).enqueue(callback);
 
             toggleState();
         });

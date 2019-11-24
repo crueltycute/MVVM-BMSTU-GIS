@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.model.RoutePoint;
 import com.park.smet_k.bauman_gis.model.Stairs;
 import com.park.smet_k.bauman_gis.recycler.AdapterPathList;
@@ -77,7 +77,7 @@ public class RouteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mapsList = view.findViewById(R.id.path_list);
 
-        if (AppComponent.getInstance().StairsGraph == null || AppComponent.getInstance().StairsGraph.getGraphSize() == 0) {
+        if (Repository.getInstance().StairsGraph == null || Repository.getInstance().StairsGraph.getGraphSize() == 0) {
             Toast toast = Toast.makeText(getContext(),
                     "stairs graph empty",
                     Toast.LENGTH_SHORT);
@@ -85,7 +85,7 @@ public class RouteFragment extends Fragment {
             return;
         }
 
-        if (AppComponent.getInstance().StairsArray == null || AppComponent.getInstance().StairsArray.size() == 0) {
+        if (Repository.getInstance().StairsArray == null || Repository.getInstance().StairsArray.size() == 0) {
             Toast toast = Toast.makeText(getContext(),
                     "stairs array empty",
                     Toast.LENGTH_SHORT);
@@ -106,11 +106,11 @@ public class RouteFragment extends Fragment {
             return;
         }
 
-        RoutePoint routePointFrom = AppComponent.getInstance().PointsMap.get(fromPoint);
-        RoutePoint routePointTo = AppComponent.getInstance().PointsMap.get(toPoint);
+        RoutePoint routePointFrom = Repository.getInstance().PointsMap.get(fromPoint);
+        RoutePoint routePointTo = Repository.getInstance().PointsMap.get(toPoint);
 
-        fromStair = AppComponent.getInstance().GetClosestStair(routePointFrom);
-        toStair = AppComponent.getInstance().GetClosestStair(routePointTo);
+        fromStair = Repository.getInstance().GetClosestStair(routePointFrom);
+        toStair = Repository.getInstance().GetClosestStair(routePointTo);
 
         Paint p = new Paint();
         Bitmap bitmapImg1 = BitmapFactory.decodeResource(getResources(), R.drawable.bmstuplan);
@@ -140,7 +140,7 @@ public class RouteFragment extends Fragment {
             TreeMap<GridLocation, Double> cost_so_far = new TreeMap<>(GridLocation::compare);
 
             aStarSearch.clear();
-            aStarSearch.doAStarSearch(AppComponent.getInstance().LevelsGraph.get(routePointFrom.getLevel()), start, goal, came_from, cost_so_far);
+            aStarSearch.doAStarSearch(Repository.getInstance().LevelsGraph.get(routePointFrom.getLevel()), start, goal, came_from, cost_so_far);
 
             ArrayList<GridLocation> path = aStarSearch.reconstruct_path(start, goal, came_from);
 
@@ -178,19 +178,19 @@ public class RouteFragment extends Fragment {
             Log.d(LOG_TAG, "else");
 
             // фиксируем прибыль (уличная магия)
-            route = AppComponent.getInstance().StairsGraph.dijkstra(fromStair.getId() - 1, toStair.getId() - 1);
+            route = Repository.getInstance().StairsGraph.dijkstra(fromStair.getId() - 1, toStair.getId() - 1);
 
             start.setX(routePointFrom.getX());
             start.setY(routePointFrom.getY());
 
-            goal.setX(AppComponent.getInstance().StairsArray.get(route.get(0)).getX());
-            goal.setY(AppComponent.getInstance().StairsArray.get(route.get(0)).getY());
+            goal.setX(Repository.getInstance().StairsArray.get(route.get(0)).getX());
+            goal.setY(Repository.getInstance().StairsArray.get(route.get(0)).getY());
 
             TreeMap<GridLocation, GridLocation> came_from = new TreeMap<>(GridLocation::compare);
             TreeMap<GridLocation, Double> cost_so_far = new TreeMap<>(GridLocation::compare);
 
             aStarSearch.clear();
-            aStarSearch.doAStarSearch(AppComponent.getInstance().LevelsGraph.get(routePointFrom.getLevel()), start, goal, came_from, cost_so_far);
+            aStarSearch.doAStarSearch(Repository.getInstance().LevelsGraph.get(routePointFrom.getLevel()), start, goal, came_from, cost_so_far);
 
             ArrayList<GridLocation> path = aStarSearch.reconstruct_path(start, goal, came_from);
 
@@ -223,18 +223,18 @@ public class RouteFragment extends Fragment {
             ////////////
 
             for (int i = 0; i < route.size() - 1; i++) {
-                if (AppComponent.getInstance().StairsArray.get(route.get(i)).getLevel().
-                        equals(AppComponent.getInstance().StairsArray.get(route.get(i + 1)).getLevel())) {
+                if (Repository.getInstance().StairsArray.get(route.get(i)).getLevel().
+                        equals(Repository.getInstance().StairsArray.get(route.get(i + 1)).getLevel())) {
                     Log.d("kek", "same level, run A star on " +
                             (route.get(i) + 1) + " " + (route.get(i + 1) + 1));
 
                     bitmapImg = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(bitmapImg);
 
-                    Integer x_f = AppComponent.getInstance().StairsArray.get(route.get(i)).getX();
-                    Integer y_f = AppComponent.getInstance().StairsArray.get(route.get(i)).getY();
-                    Integer x_l = AppComponent.getInstance().StairsArray.get(route.get(i + 1)).getX();
-                    Integer y_l = AppComponent.getInstance().StairsArray.get(route.get(i + 1)).getY();
+                    Integer x_f = Repository.getInstance().StairsArray.get(route.get(i)).getX();
+                    Integer y_f = Repository.getInstance().StairsArray.get(route.get(i)).getY();
+                    Integer x_l = Repository.getInstance().StairsArray.get(route.get(i + 1)).getX();
+                    Integer y_l = Repository.getInstance().StairsArray.get(route.get(i + 1)).getY();
 
                     Log.d("kek", "points: " + x_f.toString() + " " + y_f.toString() + ", " +
                             x_l.toString() + " " + y_l.toString());
@@ -249,7 +249,7 @@ public class RouteFragment extends Fragment {
                     cost_so_far = new TreeMap<>(GridLocation::compare);
 
                     aStarSearch.clear();
-                    aStarSearch.doAStarSearch(AppComponent.getInstance().LevelsGraph.get(0), start, goal, came_from, cost_so_far);
+                    aStarSearch.doAStarSearch(Repository.getInstance().LevelsGraph.get(0), start, goal, came_from, cost_so_far);
 
                     path = aStarSearch.reconstruct_path(start, goal, came_from);
 
@@ -264,7 +264,7 @@ public class RouteFragment extends Fragment {
                     canvas.drawCircle(x_l * multiplyDP, y_l * multiplyDP, 20, p);
 
                     merge = overlay(bitmapImg1, bitmapImg);
-                    pathList.add(new Pair<>(merge, AppComponent.getInstance().StairsArray.get(route.get(i)).getLevel()));
+                    pathList.add(new Pair<>(merge, Repository.getInstance().StairsArray.get(route.get(i)).getLevel()));
                 }
             }
 
@@ -273,8 +273,8 @@ public class RouteFragment extends Fragment {
             bitmapImg = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvas = new Canvas(bitmapImg);
 
-            start.setX(AppComponent.getInstance().StairsArray.get(route.get(route.size() - 1)).getX());
-            start.setY(AppComponent.getInstance().StairsArray.get(route.get(route.size() - 1)).getY());
+            start.setX(Repository.getInstance().StairsArray.get(route.get(route.size() - 1)).getX());
+            start.setY(Repository.getInstance().StairsArray.get(route.get(route.size() - 1)).getY());
 
             goal.setX(routePointTo.getX());
             goal.setY(routePointTo.getY());
@@ -283,7 +283,7 @@ public class RouteFragment extends Fragment {
             cost_so_far = new TreeMap<>(GridLocation::compare);
 
             aStarSearch.clear();
-            aStarSearch.doAStarSearch(AppComponent.getInstance().LevelsGraph.get(routePointTo.getLevel()), start, goal, came_from, cost_so_far);
+            aStarSearch.doAStarSearch(Repository.getInstance().LevelsGraph.get(routePointTo.getLevel()), start, goal, came_from, cost_so_far);
 
             path = aStarSearch.reconstruct_path(start, goal, came_from);
 
@@ -313,7 +313,7 @@ public class RouteFragment extends Fragment {
             }
 
             merge = overlay(bitmapImg1, bitmapImg);
-            pathList.add(new Pair<>(merge, AppComponent.getInstance().StairsArray.get(route.get(route.size() - 1)).getLevel()));
+            pathList.add(new Pair<>(merge, Repository.getInstance().StairsArray.get(route.get(route.size() - 1)).getLevel()));
         }
 
         AdapterPathList adapterPathList = new AdapterPathList(getContext(), this::onItemClick);

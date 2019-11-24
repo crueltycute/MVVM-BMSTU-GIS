@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.compontents;
+package com.park.smet_k.bauman_gis;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class AppComponent {
+public class Repository {
     private final static String KEY_OAUTH = "oauth";
     private final static String STORAGE_NAME = "storage";
     // массив лестниц
@@ -53,7 +53,7 @@ public class AppComponent {
 
     private final String LOG_TAG = "INIT";
 
-    private static AppComponent instance = null;
+    private static Repository instance = null;
     public final DBWorker dbWorker;
     public final BgisApi bgisApi;
 
@@ -63,11 +63,11 @@ public class AppComponent {
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public static AppComponent getInstance() {
+    public static Repository getInstance() {
         return instance;
     }
 
-    private AppComponent(Context context) {
+    private Repository(Context context) {
         // DBWorker init
         this.dbWorker = new DBWorker(context);
         this.prefs = context.getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
@@ -87,11 +87,12 @@ public class AppComponent {
                 .build()
                 .create(BgisApi.class);
 
+        this.MapPointsInit();
     }
 
     public static void init(Context context) {
         if (instance == null) {
-            instance = new AppComponent(context);
+            instance = new Repository(context);
         }
     }
 

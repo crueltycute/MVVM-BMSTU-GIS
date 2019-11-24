@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.compontents.AppComponent;
+import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.model.User;
 
 import retrofit2.Call;
@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         };
 
         // avoid static error
-        AppComponent.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
     }
 
     private void startLoginActivity() {
