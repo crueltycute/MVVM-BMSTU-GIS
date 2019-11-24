@@ -25,7 +25,7 @@ public class App extends Application {
         return mApiRepo;
     }
 
-    public PreferencesRepository getmPreferencesRepo() {
+    public PreferencesRepository getPreferencesRepo() {
         return mPreferencesRepo;
     }
 

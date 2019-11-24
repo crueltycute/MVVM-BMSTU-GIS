@@ -40,6 +40,6 @@ public class PreferencesRepository {
 
 
     public static PreferencesRepository from(Context context) {
-        return App.from(context).getmPreferencesRepo();
+        return App.from(context).getPreferencesRepo();
     }
 }

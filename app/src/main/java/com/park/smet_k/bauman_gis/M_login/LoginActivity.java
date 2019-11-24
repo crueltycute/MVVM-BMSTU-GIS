@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button loginButton;
     private TextView loginSwitch;
 
+    private LoginViewModel mLoginViewModel;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +78,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginSwitch.setOnClickListener(this);
 
         findViewById(R.id.skip).setOnClickListener(this);
-
 
         registerForm.animate().translationX(3000);
         registerButton.animate().translationX(3000);

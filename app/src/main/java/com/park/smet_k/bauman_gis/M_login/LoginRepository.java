@@ -37,6 +37,10 @@ public class LoginRepository {
         mPrefsRepo = PreferencesRepository.from(mContext);
     }
 
+    public boolean IsLoged() {
+        return mPrefsRepo.getIsFirst();
+    }
+
     public LiveData<AuthProgress> login(@NonNull String login, @NonNull String password) {
         if (TextUtils.equals(login, mCurrentUser) && mAuthProgress.getValue() == AuthProgress.IN_PROGRESS) {
             return mAuthProgress;
@@ -87,7 +91,7 @@ public class LoginRepository {
 
         mCurrentUser = login;
         mAuthProgress = new MutableLiveData<>(AuthProgress.IN_PROGRESS);
-        login(mAuthProgress, login, password);
+        register(mAuthProgress, login, password);
 
         return mAuthProgress;
     }
@@ -98,16 +102,11 @@ public class LoginRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 User body = response.body();
                 if (body != null) {
-                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-
-                    // сохраняю айди пользователя
-                    mPrefsRepo.putUserID(body.getId());
-                    // уже логинился
-                    mPrefsRepo.putIsFirst(false);
+                    Log.d(LOG_TAG, "--- Register OK body != null ---");
 
                     progress.postValue(AuthProgress.SUCCESS);
                 } else {
-                    Log.d(LOG_TAG, "--- Login OK body == null ---");
+                    Log.d(LOG_TAG, "--- Register OK body == null ---");
                     progress.postValue(AuthProgress.FAILED);
                 }
             }
