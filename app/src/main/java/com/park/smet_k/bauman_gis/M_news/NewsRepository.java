@@ -36,7 +36,7 @@ public class NewsRepository {
         mApi = ApiRepository.from(mContext).getAPI();
     }
 
-    public static LiveData<List<News>> getNews() {
+    public LiveData<List<News>> getNews() {
         return mNews;
     }
 

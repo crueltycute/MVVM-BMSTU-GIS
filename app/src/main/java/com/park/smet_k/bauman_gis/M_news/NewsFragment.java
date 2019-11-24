@@ -20,6 +20,7 @@ import com.park.smet_k.bauman_gis.model.News;
 import com.park.smet_k.bauman_gis.recycler.AdapterNewsList;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NewsFragment extends Fragment {
     private NewsViewModel mNewsViewModel;
@@ -70,9 +71,7 @@ public class NewsFragment extends Fragment {
             }
         };
 
-//        mNewsViewModel = new ViewModelProvider(getActivity()).get(NewsViewModel.class);
-//        mNewsViewModel.getNews().observe(getViewLifecycleOwner(), observer);
-        mNewsViewModel = new ViewModelProvider(getActivity())
+        mNewsViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
                 .get(NewsViewModel.class);
         mNewsViewModel
                 .getNews()

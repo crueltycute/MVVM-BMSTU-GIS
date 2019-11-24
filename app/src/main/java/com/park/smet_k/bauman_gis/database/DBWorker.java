@@ -8,13 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.park.smet_k.bauman_gis.model.News;
-import com.park.smet_k.bauman_gis.model.Route;
 import com.park.smet_k.bauman_gis.model.NewsModel;
+import com.park.smet_k.bauman_gis.model.Route;
 import com.park.smet_k.bauman_gis.model.Stairs;
 import com.park.smet_k.bauman_gis.model.StairsLink;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DBWorker extends SQLiteOpenHelper {
@@ -335,7 +334,7 @@ public class DBWorker extends SQLiteOpenHelper {
             do {
                 News n = new News();
                 n.setTitle((c.getString(c.getColumnIndex("title"))));
-                n.setTime(new Date(c.getInt(c.getColumnIndex("time"))));
+//                n.setTime(new Date(c.getInt(c.getColumnIndex("time"))));
                 n.setPayload((c.getString(c.getColumnIndex("payload"))));
 
                 // adding to news list

@@ -5,20 +5,17 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.park.smet_k.bauman_gis.activity.MainActivity;
 import com.park.smet_k.bauman_gis.model.News;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class NewsViewModel extends AndroidViewModel {
     private NewsRepository mNewsRepo = new NewsRepository(getApplication());
-    private LiveData<List<News>> mNews;
+    private LiveData<List<News>> mNews = mNewsRepo.getNews();
 
-    public NewsViewModel(@NonNull Application application, ArrayList<News> mNewsArray) {
+    public NewsViewModel(@NonNull Application application) {
         super(application);
     }
 
