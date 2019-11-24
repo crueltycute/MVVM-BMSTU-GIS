@@ -10,8 +10,8 @@
         android:id="@+id/news_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:padding="8dp" />
+
+        />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
