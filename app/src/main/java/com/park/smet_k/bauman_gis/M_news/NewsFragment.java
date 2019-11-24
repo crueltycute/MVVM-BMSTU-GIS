@@ -18,7 +18,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.activity.MainActivity;
 import com.park.smet_k.bauman_gis.model.News;
-import com.park.smet_k.bauman_gis.recycler.AdapterNewsList;
 
 import java.util.List;
 import java.util.Objects;
@@ -64,17 +63,17 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.news_list);
 
-        AdapterNewsList adapterNewsList = new AdapterNewsList(getContext(), this::onItemClick);
+        NewsAdapter newsAdapter = new NewsAdapter(getContext(), this::onItemClick);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(adapterNewsList);
+        mRecyclerView.setAdapter(newsAdapter);
         mRecyclerView.setHasFixedSize(true);
 
         Observer<List<News>> observer = new Observer<List<News>>() {
             @Override
             public void onChanged(List<News> news) {
                 if (news != null) {
-                    adapterNewsList.setNews(news);
+                    newsAdapter.setNews(news);
                 }
             }
         };
