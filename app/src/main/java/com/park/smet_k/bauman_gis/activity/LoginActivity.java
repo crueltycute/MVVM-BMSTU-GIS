@@ -38,18 +38,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private final static String KEY_OAUTH = "oauth";
     private final static String STORAGE_NAME = "storage";
 
-    //    private TextView registerHeader;
     private View registerForm;
     private Button registerButton;
     private TextView registerSwitch;
 
-    //    private TextView loginHeader;
     private View loginForm;
     private Button loginButton;
     private TextView loginSwitch;
 
-
-//    private final BgisApi bgisApi = Repository.getInstance().bgisApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,12 +59,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         emailSignup = findViewById(R.id.edit_email_signup);
         passwordSignup = findViewById(R.id.edit_password_signup);
 
-//        registerHeader = findViewById(R.id.signupHeader);
         registerForm = findViewById(R.id.linearLayoutSignUp);
         registerButton = findViewById(R.id.signup);
         registerSwitch = findViewById(R.id.textViewRegister);
 
-//        loginHeader = findViewById(R.id.loginHeader);
         loginForm = findViewById(R.id.linearLayoutLogin);
         loginButton = findViewById(R.id.login);
         loginSwitch = findViewById(R.id.textViewLogin);
@@ -83,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         registerForm.animate().translationX(3000);
-//        registerHeader.animate().translationX(3000);
         registerButton.animate().translationX(3000);
         registerSwitch.animate().translationX(3000);
 
@@ -147,12 +140,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(0);
-//                registerHeader.animate().translationX(0);
                 registerButton.animate().translationX(0);
                 registerSwitch.animate().translationX(0);
 
                 loginForm.animate().translationX(-3000);
-//                loginHeader.animate().translationX(-3000);
                 loginButton.animate().translationX(-3000);
                 loginSwitch.animate().translationX(-3000);
 
@@ -176,12 +167,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(3000);
-//                registerHeader.animate().translationX(3000);
                 registerButton.animate().translationX(3000);
                 registerSwitch.animate().translationX(3000);
 
                 loginForm.animate().translationX(0);
-//                loginHeader.animate().translationX(0);
                 loginButton.animate().translationX(0);
                 loginSwitch.animate().translationX(0);
 
@@ -299,12 +288,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.d(LOG_TAG, "--- Login OK body != null ---");
 
                     registerForm.animate().translationX(3000);
-//                    registerHeader.animate().translationX(3000);
                     registerButton.animate().translationX(3000);
                     registerSwitch.animate().translationX(3000);
 
                     loginForm.animate().translationX(0);
-//                    loginHeader.animate().translationX(0);
                     loginButton.animate().translationX(0);
                     loginSwitch.animate().translationX(0);
 
