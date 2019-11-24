@@ -84,26 +84,6 @@ public class NewsFragment extends Fragment {
         // TODO(smet1): здесь пока ничего нет, если будет надо, взять из RoutesListFragment
     }
 
-//    @Override
-//    public void onResume() {
-//        Log.d(LOG_TAG, "=== ON RESUME === ");
-//
-//        AdapterNewsList adapterNewsList = new AdapterNewsList(getContext(), this::onItemClick);
-//
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        mRecyclerView.setAdapter(adapterNewsList);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        if (mViewModel.newsArrayList == null) {
-//            mViewModel.GetNewsInit();
-//        }
-//
-//        for (News i : mViewModel.newsArrayList) {
-//            adapterNewsList.add(i);
-//        }
-//
-//        super.onResume();
-//    }
 
     @Override
     public void onPause() {
