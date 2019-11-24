@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.activity.MainActivity;
@@ -22,9 +23,10 @@ import com.park.smet_k.bauman_gis.recycler.AdapterNewsList;
 import java.util.List;
 import java.util.Objects;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private NewsViewModel mNewsViewModel;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
 
     private final String LOG_TAG = "NewsList";
@@ -48,7 +50,13 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("News");
 
-        return inflater.inflate(R.layout.server_news_fragment, container, false);
+        View view = inflater.inflate(R.layout.server_news_fragment, container, false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+
+        return view;
     }
 
     @Override
@@ -84,31 +92,16 @@ public class NewsFragment extends Fragment {
         // TODO(smet1): здесь пока ничего нет, если будет надо, взять из RoutesListFragment
     }
 
-//    @Override
-//    public void onResume() {
-//        Log.d(LOG_TAG, "=== ON RESUME === ");
-//
-//        AdapterNewsList adapterNewsList = new AdapterNewsList(getContext(), this::onItemClick);
-//
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        mRecyclerView.setAdapter(adapterNewsList);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        if (mViewModel.newsArrayList == null) {
-//            mViewModel.GetNewsInit();
-//        }
-//
-//        for (News i : mViewModel.newsArrayList) {
-//            adapterNewsList.add(i);
-//        }
-//
-//        super.onResume();
-//    }
-
     @Override
     public void onPause() {
         Log.d(LOG_TAG, "=== ON PAUSE === ");
 
         super.onPause();
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mNewsViewModel.refresh();
     }
 }
