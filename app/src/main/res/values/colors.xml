@@ -9,4 +9,7 @@
     <color name="colorLight">#d1d0cc</color>
 
     <color name="colorSurface">#D2D5D9</color>
+
+    <color name="colorShadow">#40000000</color>
+    <color name="colorTint">#BF374258</color>
 </resources>

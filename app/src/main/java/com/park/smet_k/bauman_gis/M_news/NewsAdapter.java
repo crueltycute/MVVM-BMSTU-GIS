@@ -59,19 +59,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerVi
     final static class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mBackground;
         private final TextView mTitle;
-        private final TextView mTime;
+//        private final TextView mTime;
         private final TextView mPayload;
 
         NewsRecyclerViewHolder(View itemView) {
             super(itemView);
             mBackground = itemView.findViewById(R.id.card_background);
             mTitle = itemView.findViewById(R.id.title);
-            mTime = itemView.findViewById(R.id.time);
+//            mTime = itemView.findViewById(R.id.time);
             mPayload = itemView.findViewById(R.id.payload);
         }
 
         void bind(final News i, OnItemClickListner onItemClickListener) {
-            mBackground.setImageResource(R.drawable.avatar);
+            mBackground.setImageResource(R.drawable.news_bg);
             mTitle.setText(i.getTitle());
 //            mTime.setText(i.getTime().toString());
             mPayload.setText(i.getPayload());
