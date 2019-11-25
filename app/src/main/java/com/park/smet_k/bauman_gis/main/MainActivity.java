@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // если первый раз запустил приложуху
-//         SharedPreferences preferences = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-//         boolean usr = preferences.getBoolean(KEY_IS_FIRST, true);
+        SharedPreferences preferences = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+        boolean usr = preferences.getBoolean(KEY_IS_FIRST, true);
 
 //         if (usr) {
 //             Intent intent = new Intent(this, LoginActivity.class);
@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            nav_camara.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_launcher));
 
             // hiding account button
-            nav_camara = menu.findItem(R.id.account);
-            nav_camara.setVisible(false);
+//            nav_camara = menu.findItem(R.id.account);
+//            nav_camara.setVisible(false);
 
             // hiding header in menu
             View navHeader = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
@@ -221,15 +221,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
 
-            case R.id.account: {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, AccountFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-
-                drawerLayout.closeDrawers();
-                break;
-            }
+//            case R.id.account: {
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.container, AccountFragment.newInstance())
+//                        .addToBackStack(null)
+//                        .commit();
+//
+//                drawerLayout.closeDrawers();
+//                break;
+//            }
             case R.id.navigation: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, NavigatorFragment.newInstance())
