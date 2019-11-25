@@ -24,6 +24,8 @@ import com.park.smet_k.bauman_gis.fragments.RoutesListFragment;
 import com.park.smet_k.bauman_gis.model.RouteModel;
 import com.park.smet_k.bauman_gis.model.RoutePoint;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +58,7 @@ public class NavigatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Navigation");
+        Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle("Navigation");
 
         return inflater.inflate(R.layout.activity_navigator, container, false);
     }
@@ -67,7 +69,7 @@ public class NavigatorFragment extends Fragment {
 
         final Button startNewActivityBtn = view.findViewById(R.id.Calculate);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.TopFrame, RoutesListFragment.newInstance())
                 .commit();
 
@@ -174,7 +176,7 @@ public class NavigatorFragment extends Fragment {
     }
 
     private void toggleState() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         Fragment bottom = getActivity().getSupportFragmentManager().findFragmentById(R.id.TopFrame);
 

@@ -31,8 +31,10 @@ import com.park.smet_k.bauman_gis.searchMap.GridLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeMap;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class RouteFragment extends Fragment {
     // просчет маршрута при создании фрагмента
     String LOG_TAG = "RouteFragment";
@@ -109,8 +111,8 @@ public class RouteFragment extends Fragment {
         RoutePoint routePointFrom = Repository.getInstance().PointsMap.get(fromPoint);
         RoutePoint routePointTo = Repository.getInstance().PointsMap.get(toPoint);
 
-        fromStair = Repository.getInstance().GetClosestStair(routePointFrom);
-        toStair = Repository.getInstance().GetClosestStair(routePointTo);
+        fromStair = Repository.getInstance().GetClosestStair(Objects.requireNonNull(routePointFrom));
+        toStair = Repository.getInstance().GetClosestStair(Objects.requireNonNull(routePointTo));
 
         Paint p = new Paint();
         Bitmap bitmapImg1 = BitmapFactory.decodeResource(getResources(), R.drawable.bmstuplan);

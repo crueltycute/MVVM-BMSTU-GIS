@@ -73,7 +73,7 @@ public class RoutesListFragment extends Fragment {
 
     private void onItemClick(Route i) {
         // getChildFragmentManager не работает, нельзя бросить данные в другой фрагмент
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(getFragmentManager()).beginTransaction();
         Bundle bundle = new Bundle();
         Fragment bottom = getFragmentManager().findFragmentById(R.id.TopFrame);
 
