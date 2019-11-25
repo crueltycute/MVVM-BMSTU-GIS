@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class LoginViewModel extends AndroidViewModel {
     private LoginData mLastLoginData = new LoginData("", "");
+    private LoginData mLastRegisterData = new LoginData("", "");
 
     private MediatorLiveData<LoginState> mLoginState = new MediatorLiveData<>();
 
@@ -64,9 +65,9 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
     public void register(String login, String password) {
-        LoginData last = mLastLoginData;
+        LoginData last = mLastRegisterData;
         LoginData loginData = new LoginData(login, password);
-        mLastLoginData = loginData;
+        mLastRegisterData = loginData;
 
         if (!loginData.isValid()) {
             mLoginState.postValue(LoginState.REGISTER_ERROR);
