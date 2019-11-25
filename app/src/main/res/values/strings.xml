@@ -2,7 +2,6 @@
     <string name="app_name">BMSTU_GIS</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="account">Account</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="go">Go!</string>
@@ -18,10 +17,14 @@
     <string name="usr_email">your@s.mail</string>
     <string name="routes_list_title">Routes list</string>
     <string name="news_title">News</string>
-    <string name="settings">Settings</string>
     <string name="clear_all_routes">Clear all routes</string>
     <string name="clear">Clear</string>
     <string name="signup">SignUp</string>
     <string name="skip_login">skip</string>
+    <string name="news">News</string>
+    <string name="account">Account</string>
+    <string name="navigation">Navigation</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
 
 </resources>

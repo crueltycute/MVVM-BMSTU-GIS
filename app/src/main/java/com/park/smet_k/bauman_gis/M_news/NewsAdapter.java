@@ -1,9 +1,10 @@
-package com.park.smet_k.bauman_gis.recycler;
+package com.park.smet_k.bauman_gis.M_news;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,13 +17,13 @@ import com.park.smet_k.bauman_gis.utils.OnItemClickListner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterNewsList extends RecyclerView.Adapter<AdapterNewsList.NewsRecyclerViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerViewHolder> {
     private final LayoutInflater layoutInflater;
     private List<News> data;
     private final OnItemClickListner<News> onItemClickListener;
 
 
-    public AdapterNewsList(Context context, OnItemClickListner<News> onItemClickListener) {
+    public NewsAdapter(Context context, OnItemClickListner<News> onItemClickListener) {
         layoutInflater = LayoutInflater.from(context);
 
         this.data = new ArrayList<>();
@@ -56,21 +57,24 @@ public class AdapterNewsList extends RecyclerView.Adapter<AdapterNewsList.NewsRe
     }
 
     final static class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title;
-        private final TextView time;
-        private final TextView payload;
+        private final ImageView mBackground;
+        private final TextView mTitle;
+//        private final TextView mTime;
+        private final TextView mPayload;
 
         NewsRecyclerViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            time = itemView.findViewById(R.id.time);
-            payload = itemView.findViewById(R.id.payload);
+            mBackground = itemView.findViewById(R.id.card_background);
+            mTitle = itemView.findViewById(R.id.title);
+//            mTime = itemView.findViewById(R.id.time);
+            mPayload = itemView.findViewById(R.id.payload);
         }
 
         void bind(final News i, OnItemClickListner onItemClickListener) {
-            title.setText(i.getTitle());
-//            time.setText(i.getTime().toString());
-            payload.setText(i.getPayload());
+            mBackground.setImageResource(R.drawable.news_bg);
+            mTitle.setText(i.getTitle());
+//            mTime.setText(i.getTime().toString());
+            mPayload.setText(i.getPayload());
 
             itemView.setOnClickListener(v -> onItemClickListener.onItemClick(i));
         }

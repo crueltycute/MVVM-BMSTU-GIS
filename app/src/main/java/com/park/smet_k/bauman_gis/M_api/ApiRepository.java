@@ -22,7 +22,7 @@ public class ApiRepository {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create())
                 .baseUrl(new HttpUrl.Builder()
-                        .scheme("http")
+                        .scheme("https")
                         .host("bmstu-gis-spring.herokuapp.com")
                         .build())
                 .client(mOkHttpClient)

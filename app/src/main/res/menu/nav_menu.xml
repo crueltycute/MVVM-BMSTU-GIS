@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/ic_whatshot_black_24dp"
         android:checkable="true"
-        android:title="News" />
+        android:icon="@drawable/ic_whatshot_black_24dp"
+        android:title="@string/news" />
     <item
         android:id="@+id/account"
-        android:icon="@drawable/ic_account_circle_black_24dp"
         android:checkable="true"
-        android:title="Account" />
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/account" />
     <item
         android:id="@+id/navigation"
-        android:icon="@drawable/ic_map_black_24dp"
         android:checkable="true"
-        android:title="Navigation" />
+        android:icon="@drawable/ic_map_black_24dp"
+        android:title="@string/navigation" />
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_black_24dp"
         android:checkable="true"
-        android:title="Settings" />
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"
         android:checkable="true"
-        android:title="Logout" />
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/logout" />
 </menu>
