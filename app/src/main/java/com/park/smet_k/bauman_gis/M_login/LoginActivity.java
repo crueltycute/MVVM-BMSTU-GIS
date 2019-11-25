@@ -85,10 +85,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         // =================
-        SharedPreferences prefs = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+        mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         // уже залогинился
-        if (!prefs.getBoolean(KEY_IS_FIRST, true)) {
+        if (!mLoginViewModel.IsLoged()) {
             startMainActivity();
         }
         // =================
@@ -184,12 +184,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.skip:
                 Log.d(LOG_TAG, "--- Skip ---");
 
-                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
-                // сохраняю айди незареганного пользователя
-                editor.putInt(KEY_OAUTH, -1);
-                // уже логинился
-                editor.putBoolean(KEY_IS_FIRST, false);
-                editor.apply();
+//                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
+//                // сохраняю айди незареганного пользователя
+//                editor.putInt(KEY_OAUTH, -1);
+//                // уже логинился
+//                editor.putBoolean(KEY_IS_FIRST, false);
+//                editor.apply();
+
+                mLoginViewModel.SkipAuth();
                 startMainActivity();
                 break;
 

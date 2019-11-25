@@ -41,6 +41,14 @@ public class LoginRepository {
         return mPrefsRepo.getIsFirst();
     }
 
+    public void SkipAuth() {
+        // сохраняю айди незареганного пользователя
+        mPrefsRepo.putUserID(-1);
+        // уже логинился
+        mPrefsRepo.putIsFirst(false);
+
+    }
+
     public LiveData<AuthProgress> login(@NonNull String login, @NonNull String password) {
         if (TextUtils.equals(login, mCurrentUser) && mAuthProgress.getValue() == AuthProgress.IN_PROGRESS) {
             return mAuthProgress;

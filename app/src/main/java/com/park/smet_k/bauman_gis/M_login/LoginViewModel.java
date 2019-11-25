@@ -21,6 +21,15 @@ public class LoginViewModel extends AndroidViewModel {
         mLoginState.setValue(LoginState.NONE);
     }
 
+    public boolean IsLoged() {
+        return new LoginRepository(getApplication()).IsLoged();
+    }
+
+    public void SkipAuth() {
+        new LoginRepository(getApplication()).SkipAuth();
+    }
+
+
     public LiveData<LoginState> getProgress() {
         return mLoginState;
     }
