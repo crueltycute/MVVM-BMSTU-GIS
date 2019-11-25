@@ -102,7 +102,9 @@ public class RoutesListFragment extends Fragment {
 
         dbHelper = new DBWorker(getActivity());
 
-        List<Route> listToShow = Repository.getInstance().dbWorker.select(dbHelper, "all", "");
+
+        List<Route> listToShow = new ArrayList<>();  // TODO(nmerk): убрать хардкод
+//        List<Route> listToShow = Repository.getInstance().dbWorker.select(dbHelper, "all", "");
 
         AdapterRoutesList numbersAdapter = new AdapterRoutesList(getContext(), this::onItemClick);
 
