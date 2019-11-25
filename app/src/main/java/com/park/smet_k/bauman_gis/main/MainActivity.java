@@ -230,6 +230,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawers();
                 break;
             }
+            case R.id.favorites: {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, FavoriteFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+
+                drawerLayout.closeDrawers();
+                break;
+            }
             case R.id.navigation: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, NavigatorFragment.newInstance())
