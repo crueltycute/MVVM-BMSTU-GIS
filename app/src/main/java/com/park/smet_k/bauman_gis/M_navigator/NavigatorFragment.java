@@ -146,7 +146,7 @@ public class NavigatorFragment extends Fragment {
 
                 @Override
                 public void onFailure(@NonNull Call<RouteModel> call, Throwable t) {
-                    Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
+                    Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
                     Toast toast = Toast.makeText(getContext(),
                             "Server Error",
                             Toast.LENGTH_SHORT);

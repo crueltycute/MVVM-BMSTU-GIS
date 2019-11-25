@@ -10,22 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.activity.MainActivity;
-import com.park.smet_k.bauman_gis.model.User;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final String LOG_TAG = "LoginActivity";
@@ -40,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private final static String STORAGE_NAME = "storage";
 
     private View registerForm;
-    private Button registerButton;
+    private Button registerBtn;
     private TextView registerSwitch;
 
     private View loginForm;
@@ -63,14 +56,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordSignup = findViewById(R.id.edit_password_signup);
 
         registerForm = findViewById(R.id.linearLayoutSignUp);
-        registerButton = findViewById(R.id.signup);
+        registerBtn = findViewById(R.id.signup);
         registerSwitch = findViewById(R.id.textViewRegister);
 
         loginForm = findViewById(R.id.linearLayoutLogin);
         loginBtn = findViewById(R.id.login);
         loginSwitch = findViewById(R.id.textViewLogin);
 
-        registerButton.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
         registerSwitch.setOnClickListener(this);
 
         loginBtn.setOnClickListener(this);
@@ -79,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.skip).setOnClickListener(this);
 
         registerForm.animate().translationX(3000);
-        registerButton.animate().translationX(3000);
+        registerBtn.animate().translationX(3000);
         registerSwitch.animate().translationX(3000);
 
 
@@ -87,25 +80,53 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         // уже залогинился
-        if (!mLoginViewModel.IsLoged()) {
+        if (!mLoginViewModel.IsLogged()) {
             startMainActivity();
         }
         // =================
 
         mLoginViewModel.getProgress().observe(this, loginState -> {
-            if (loginState == LoginViewModel.LoginState.FAILED) {
+            if (loginState == LoginViewModel.LoginState.LOGIN_FAILED) {
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
-            } else if (loginState == LoginViewModel.LoginState.ERROR) {
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_FAILED) {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_ERROR) {
                 Toast.makeText(this, "Invalid login or password", Toast.LENGTH_LONG).show();
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
-            } else if (loginState == LoginViewModel.LoginState.IN_PROGRESS) {
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_ERROR) {
+                Toast.makeText(this, "Invalid login or password", Toast.LENGTH_LONG).show();
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_IN_PROGRESS) {
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
-            } else if (loginState == LoginViewModel.LoginState.SUCCESS) {
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_IN_PROGRESS) {
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_SUCCESS) {
                 Toast.makeText(this, "Success login", Toast.LENGTH_LONG).show();
                 startMainActivity();
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_SUCCESS) {
+                Toast.makeText(this, "Success, now login please", Toast.LENGTH_LONG).show();
+
+                registerForm.animate().translationX(3000);
+                registerBtn.animate().translationX(3000);
+                registerSwitch.animate().translationX(3000);
+
+                loginForm.animate().translationX(0);
+                loginBtn.animate().translationX(0);
+                loginSwitch.animate().translationX(0);
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+
             } else {
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
             }
         });
     }
@@ -159,7 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(0);
-                registerButton.animate().translationX(0);
+                registerBtn.animate().translationX(0);
                 registerSwitch.animate().translationX(0);
 
                 loginForm.animate().translationX(-3000);
@@ -186,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(3000);
-                registerButton.animate().translationX(3000);
+                registerBtn.animate().translationX(3000);
                 registerSwitch.animate().translationX(3000);
 
                 loginForm.animate().translationX(0);
@@ -254,48 +275,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        Callback<User> callback = new Callback<User>() {
-
-            @Override
-            public void onResponse(@NonNull Call<User> call, Response<User> response) {
-                User body = response.body();
-                if (body != null) {
-                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-
-                    registerForm.animate().translationX(3000);
-                    registerButton.animate().translationX(3000);
-                    registerSwitch.animate().translationX(3000);
-
-                    loginForm.animate().translationX(0);
-                    loginBtn.animate().translationX(0);
-                    loginSwitch.animate().translationX(0);
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Success, now login please",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    Log.d(LOG_TAG, "--- Login OK body == null ---");
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Invalid login/password",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Server Error",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                t.printStackTrace();
-            }
-        };
-
-        // avoid static error
-        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+        mLoginViewModel.register(email_str, password_str);
+//        Callback<User> callback = new Callback<User>() {
+//
+//            @Override
+//            public void onResponse(@NonNull Call<User> call, Response<User> response) {
+//                User body = response.body();
+//                if (body != null) {
+//                    Log.d(LOG_TAG, "--- Login OK body != null ---");
+//
+//                    registerForm.animate().translationX(3000);
+//                    registerBtn.animate().translationX(3000);
+//                    registerSwitch.animate().translationX(3000);
+//
+//                    loginForm.animate().translationX(0);
+//                    loginBtn.animate().translationX(0);
+//                    loginSwitch.animate().translationX(0);
+//
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            "Success, now login please",
+//                            Toast.LENGTH_SHORT);
+//                    toast.show();
+//                } else {
+//                    Log.d(LOG_TAG, "--- Login OK body == null ---");
+//
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            "Invalid login/password",
+//                            Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//                Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "Server Error",
+//                        Toast.LENGTH_SHORT);
+//                toast.show();
+//                t.printStackTrace();
+//            }
+//        };
+//
+//        // avoid static error
+//        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
     }
 }

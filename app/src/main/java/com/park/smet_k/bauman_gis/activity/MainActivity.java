@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(@NonNull retrofit2.Call<List<RouteModel>> call, Throwable t) {
-                Log.d(LOG_TAG, "--- pullRoutes ERROR onFailure ---");
+                Log.d(LOG_TAG, "--- pullRoutes LOGIN_ERROR onFailure ---");
 
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Server not reachable",
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(@NonNull retrofit2.Call<User> call, Throwable t) {
-                    Log.d(LOG_TAG, "--- getUser ERROR onFailure ---");
+                    Log.d(LOG_TAG, "--- getUser LOGIN_ERROR onFailure ---");
 
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "Server not reachable",

@@ -20,15 +20,12 @@ import retrofit2.Response;
 public class LoginRepository {
     private final String LOG_TAG = "LoginRepository";
 
-    private final static String KEY_IS_FIRST = "is_first";
-    private final static String KEY_OAUTH = "oauth";
-    private final static String STORAGE_NAME = "storage";
-
     private final BgisApi mApiRepo;
     private final Context mContext;
     private final PreferencesRepository mPrefsRepo;
     private String mCurrentUser;
     private MutableLiveData<AuthProgress> mAuthProgress;
+    private MutableLiveData<AuthProgress> mRegisterProgress;
 
 
     public LoginRepository(Context context) {
@@ -50,14 +47,14 @@ public class LoginRepository {
     }
 
     public LiveData<AuthProgress> login(@NonNull String login, @NonNull String password) {
-        if (TextUtils.equals(login, mCurrentUser) && mAuthProgress.getValue() == AuthProgress.IN_PROGRESS) {
+        if (TextUtils.equals(login, mCurrentUser) && mAuthProgress.getValue() == AuthProgress.LOGIN_IN_PROGRESS) {
             return mAuthProgress;
         } else if (!TextUtils.equals(login, mCurrentUser) && mAuthProgress != null) {
-            mAuthProgress.postValue(AuthProgress.FAILED);
+            mAuthProgress.postValue(AuthProgress.LOGIN_FAILED);
         }
 
         mCurrentUser = login;
-        mAuthProgress = new MutableLiveData<>(AuthProgress.IN_PROGRESS);
+        mAuthProgress = new MutableLiveData<>(AuthProgress.LOGIN_IN_PROGRESS);
         login(mAuthProgress, login, password);
 
         return mAuthProgress;
@@ -76,32 +73,32 @@ public class LoginRepository {
                     // уже логинился
                     mPrefsRepo.putIsFirst(false);
 
-                    progress.postValue(AuthProgress.SUCCESS);
+                    progress.postValue(AuthProgress.LOGIN_SUCCESS);
                 } else {
                     Log.d(LOG_TAG, "--- Login OK body == null ---");
-                    progress.postValue(AuthProgress.FAILED);
+                    progress.postValue(AuthProgress.LOGIN_FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.postValue(AuthProgress.FAILED);
+                progress.postValue(AuthProgress.LOGIN_FAILED);
             }
         });
     }
 
     public LiveData<AuthProgress> register(@NonNull String login, @NonNull String password) {
-        if (TextUtils.equals(login, mCurrentUser) && mAuthProgress.getValue() == AuthProgress.IN_PROGRESS) {
-            return mAuthProgress;
+        if (TextUtils.equals(login, mCurrentUser) && mRegisterProgress.getValue() == AuthProgress.REGISTER_IN_PROGRESS) {
+            return mRegisterProgress;
         } else if (!TextUtils.equals(login, mCurrentUser) && mAuthProgress != null) {
-            mAuthProgress.postValue(AuthProgress.FAILED);
+            mRegisterProgress.postValue(AuthProgress.REGISTER_FAILED);
         }
 
         mCurrentUser = login;
-        mAuthProgress = new MutableLiveData<>(AuthProgress.IN_PROGRESS);
-        register(mAuthProgress, login, password);
+        mRegisterProgress = new MutableLiveData<>(AuthProgress.REGISTER_IN_PROGRESS);
+        register(mRegisterProgress, login, password);
 
-        return mAuthProgress;
+        return mRegisterProgress;
     }
 
     private void register(final MutableLiveData<AuthProgress> progress, @NonNull final String login, @NonNull final String password) {
@@ -112,24 +109,27 @@ public class LoginRepository {
                 if (body != null) {
                     Log.d(LOG_TAG, "--- Register OK body != null ---");
 
-                    progress.postValue(AuthProgress.SUCCESS);
+                    progress.postValue(AuthProgress.REGISTER_SUCCESS);
                 } else {
                     Log.d(LOG_TAG, "--- Register OK body == null ---");
-                    progress.postValue(AuthProgress.FAILED);
+                    progress.postValue(AuthProgress.REGISTER_FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                progress.postValue(AuthProgress.FAILED);
+                progress.postValue(AuthProgress.REGISTER_FAILED);
             }
         });
     }
 
 
     enum AuthProgress {
-        IN_PROGRESS,
-        SUCCESS,
-        FAILED
+        LOGIN_IN_PROGRESS,
+        LOGIN_SUCCESS,
+        LOGIN_FAILED,
+        REGISTER_IN_PROGRESS,
+        REGISTER_SUCCESS,
+        REGISTER_FAILED
     }
 }

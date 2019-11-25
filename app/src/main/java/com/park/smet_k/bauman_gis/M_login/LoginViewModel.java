@@ -21,7 +21,7 @@ public class LoginViewModel extends AndroidViewModel {
         mLoginState.setValue(LoginState.NONE);
     }
 
-    public boolean IsLoged() {
+    public boolean IsLogged() {
         return new LoginRepository(getApplication()).IsLoged();
     }
 
@@ -40,24 +40,53 @@ public class LoginViewModel extends AndroidViewModel {
         mLastLoginData = loginData;
 
         if (!loginData.isValid()) {
-            mLoginState.postValue(LoginState.ERROR);
+            mLoginState.postValue(LoginState.LOGIN_ERROR);
         } else if (last != null && last.equals(loginData)) {
             Log.w("LoginViewModel", "Ignoring duplicate request with login data");
-        } else if (mLoginState.getValue() != LoginState.IN_PROGRESS) {
+        } else if (mLoginState.getValue() != LoginState.LOGIN_IN_PROGRESS) {
             requestLogin(loginData);
         }
     }
 
     private void requestLogin(final LoginData loginData) {
-        mLoginState.postValue(LoginState.IN_PROGRESS);
+        mLoginState.postValue(LoginState.LOGIN_IN_PROGRESS);
         final LiveData<LoginRepository.AuthProgress> progressLiveData = new LoginRepository(getApplication())
                 .login(loginData.getLogin(), loginData.getPassword());
         mLoginState.addSource(progressLiveData, authProgress -> {
-            if (authProgress == LoginRepository.AuthProgress.SUCCESS) {
-                mLoginState.postValue(LoginState.SUCCESS);
+            if (authProgress == LoginRepository.AuthProgress.LOGIN_SUCCESS) {
+                mLoginState.postValue(LoginState.LOGIN_SUCCESS);
                 mLoginState.removeSource(progressLiveData);
-            } else if (authProgress == LoginRepository.AuthProgress.FAILED) {
-                mLoginState.postValue(LoginState.ERROR);
+            } else if (authProgress == LoginRepository.AuthProgress.LOGIN_FAILED) {
+                mLoginState.postValue(LoginState.LOGIN_ERROR);
+                mLoginState.removeSource(progressLiveData);
+            }
+        });
+    }
+
+    public void register(String login, String password) {
+        LoginData last = mLastLoginData;
+        LoginData loginData = new LoginData(login, password);
+        mLastLoginData = loginData;
+
+        if (!loginData.isValid()) {
+            mLoginState.postValue(LoginState.REGISTER_ERROR);
+        } else if (last != null && last.equals(loginData)) {
+            Log.w("LoginViewModel", "Ignoring duplicate request with login data");
+        } else if (mLoginState.getValue() != LoginState.REGISTER_IN_PROGRESS) {
+            requestRegister(loginData);
+        }
+    }
+
+    private void requestRegister(final LoginData loginData) {
+        mLoginState.postValue(LoginState.REGISTER_IN_PROGRESS);
+        final LiveData<LoginRepository.AuthProgress> progressLiveData = new LoginRepository(getApplication())
+                .register(loginData.getLogin(), loginData.getPassword());
+        mLoginState.addSource(progressLiveData, authProgress -> {
+            if (authProgress == LoginRepository.AuthProgress.REGISTER_SUCCESS) {
+                mLoginState.postValue(LoginState.REGISTER_SUCCESS);
+                mLoginState.removeSource(progressLiveData);
+            } else if (authProgress == LoginRepository.AuthProgress.REGISTER_FAILED) {
+                mLoginState.postValue(LoginState.REGISTER_ERROR);
                 mLoginState.removeSource(progressLiveData);
             }
         });
@@ -66,10 +95,15 @@ public class LoginViewModel extends AndroidViewModel {
 
     enum LoginState {
         NONE,
-        ERROR,
-        IN_PROGRESS,
-        SUCCESS,
-        FAILED
+        LOGIN_ERROR,
+        LOGIN_IN_PROGRESS,
+        LOGIN_SUCCESS,
+        LOGIN_FAILED,
+
+        REGISTER_ERROR,
+        REGISTER_IN_PROGRESS,
+        REGISTER_SUCCESS,
+        REGISTER_FAILED
     }
 
     public static class LoginData {

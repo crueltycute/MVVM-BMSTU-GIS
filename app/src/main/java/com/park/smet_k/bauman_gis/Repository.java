@@ -181,7 +181,7 @@ public class Repository {
 
             @Override
             public void onFailure(@NonNull Call<List<Stairs>> call, Throwable t) {
-                Log.d(LOG_TAG, "--- GetAllStairsInit ERROR onFailure ---");
+                Log.d(LOG_TAG, "--- GetAllStairsInit LOGIN_ERROR onFailure ---");
 
                 // TODO(): если не будет инета, все упадет)))00)
                 try {
@@ -236,7 +236,7 @@ public class Repository {
 
             @Override
             public void onFailure(@NonNull Call<List<StairsLink>> call, Throwable t) {
-                Log.d(LOG_TAG, "--- GetAllStairsLinksInit ERROR onFailure ---");
+                Log.d(LOG_TAG, "--- GetAllStairsLinksInit LOGIN_ERROR onFailure ---");
 
                 // TODO(): если не будет инета, все упадет)))00)
                 try {
@@ -294,7 +294,7 @@ public class Repository {
 
             @Override
             public void onFailure(@NonNull Call<List<NewsModel>> call, Throwable t) {
-                Log.d(LOG_TAG, "--- GetNewsInit ERROR onFailure ---");
+                Log.d(LOG_TAG, "--- GetNewsInit LOGIN_ERROR onFailure ---");
 
                 t.printStackTrace();
             }
