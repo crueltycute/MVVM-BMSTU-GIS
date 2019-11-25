@@ -61,31 +61,36 @@ public class SettingsFragment extends Fragment {
 //        Button reset = getActivity().findViewById(R.id.clear_button);
 
         reset.setOnClickListener(v -> {
-            Repository.getInstance().dbWorker.truncate(dbWorker);
-            SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-//            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-
-            Integer userId = preferences.getInt(KEY_OAUTH, -1);
-
-            Callback<Message> callback = new Callback<Message>() {
-                @Override
-                public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Message> call, Throwable t) {
-                    t.printStackTrace();
-                }
-
-            };
-
-            // avoid static error
-            Repository.getInstance().bgisApi.deleteHistory(userId).enqueue(callback);
-
             Toast toast = Toast.makeText(getActivity(),
-                    "История маршрутов очищена!",
-                    Toast.LENGTH_SHORT);
+            "И тут сломали...",
+            Toast.LENGTH_SHORT);
             toast.show();
+            return;
+//            Repository.getInstance().dbWorker.truncate(dbWorker);
+//            SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+////            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+//
+//            Integer userId = preferences.getInt(KEY_OAUTH, -1);
+//
+//            Callback<Message> callback = new Callback<Message>() {
+//                @Override
+//                public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
+//                }
+//
+//                @Override
+//                public void onFailure(@NonNull Call<Message> call, Throwable t) {
+//                    t.printStackTrace();
+//                }
+//
+//            };
+//
+//            // avoid static error
+//            Repository.getInstance().bgisApi.deleteHistory(userId).enqueue(callback);
+//
+//            Toast toast = Toast.makeText(getActivity(),
+//                    "История маршрутов очищена!",
+//                    Toast.LENGTH_SHORT);
+//            toast.show();
         });
     }
 }

@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     // очищаю таблицу
 //                    Repository.getInstance().dbWorker.truncate(dbHelper);
 
-                    for (RouteModel i : body) {
+//                    for (RouteModel i : body) {
 //                        Repository.getInstance().dbWorker.insert(dbHelper, i.getPoint_from(), i.getPoint_to());
-                    }
+//                    }
 
                 } else {
                     Log.d(LOG_TAG, "--- pullRoutes OK body == null --- id = " + userId.toString());
@@ -153,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         View navHeader = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
                         TextView displayName = navHeader.findViewById(R.id.display_name);
+
+                        if (displayName == null) {
+                            Log.d(LOG_TAG, "--- displayName is null ---");
+                        }
 
                         displayName.setText(body.getLogin());
                     } else {
