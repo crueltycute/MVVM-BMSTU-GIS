@@ -220,17 +220,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawers();
                 break;
             }
-
-<<<<<<< HEAD
-            case R.id.account: {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, AccountFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-
-                drawerLayout.closeDrawers();
-                break;
-            }
             case R.id.favorites: {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, FavoriteFragment.newInstance())
