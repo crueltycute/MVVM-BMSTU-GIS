@@ -15,12 +15,11 @@
             android:id="@+id/skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_last_page_black_24dp"
-            android:drawablePadding="2dp"
-            android:padding="8dp"
+            android:paddingTop="16dp"
+            android:paddingRight="24dp"
             android:text="@string/skip_login"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp" />
+            android:textSize="36sp" />
 
     </LinearLayout>
 
@@ -28,12 +27,17 @@
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="sans-serif-light"
+        android:shadowColor="@color/colorShadow"
+        android:shadowDx="0"
+        android:shadowDy="10"
+        android:shadowRadius="4"
         android:layout_above="@+id/linearLayoutLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
         android:text="@string/app_name"
         android:textColor="@color/colorPrimary"
-        android:textSize="36sp" />
+        android:textSize="60sp" />
 
     <LinearLayout
         android:id="@+id/linearLayoutLogin"
@@ -80,16 +84,22 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="160dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayoutLogin"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/contained_rounded_btn"
-        android:elevation="6dp"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:paddingLeft="40dp"
+        android:paddingTop="12dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="12dp"
         android:stateListAnimator="@null"
         android:text="@string/login"
         android:textColor="#ebebeb"
+        android:textSize="24sp"
         android:translationZ="4dp" />
 
     <TextView
@@ -158,10 +168,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/contained_rounded_btn"
-        android:elevation="6dp"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:paddingLeft="40dp"
+        android:paddingTop="12dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="12dp"
         android:stateListAnimator="@null"
         android:text="@string/signup_btn"
         android:textColor="#ebebeb"
+        android:textSize="24sp"
         android:translationZ="4dp" />
 
     <TextView
