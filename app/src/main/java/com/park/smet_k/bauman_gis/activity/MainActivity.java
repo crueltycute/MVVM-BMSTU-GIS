@@ -52,14 +52,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // если первый раз запустил приложуху
-        SharedPreferences preferences = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-        boolean usr = preferences.getBoolean(KEY_IS_FIRST, true);
+//         SharedPreferences preferences = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+//         boolean usr = preferences.getBoolean(KEY_IS_FIRST, true);
 
-        if (usr) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
+//         if (usr) {
+//             Intent intent = new Intent(this, LoginActivity.class);
+//             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//             startActivity(intent);
+//         }
         ////////////////
 
         NavigationView navView = findViewById(R.id.nav_view);
