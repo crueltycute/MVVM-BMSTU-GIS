@@ -1,7 +1,6 @@
-package com.park.smet_k.bauman_gis.activity;
+package com.park.smet_k.bauman_gis.M_login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,20 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.Repository;
-import com.park.smet_k.bauman_gis.model.User;
+import com.park.smet_k.bauman_gis.activity.MainActivity;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final String LOG_TAG = "LoginActivity";
@@ -38,18 +32,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private final static String KEY_OAUTH = "oauth";
     private final static String STORAGE_NAME = "storage";
 
-    //    private TextView registerHeader;
     private View registerForm;
-    private Button registerButton;
+    private Button registerBtn;
     private TextView registerSwitch;
 
-    //    private TextView loginHeader;
     private View loginForm;
-    private Button loginButton;
+    private Button loginBtn;
     private TextView loginSwitch;
 
+    private LoginViewModel mLoginViewModel;
 
-//    private final BgisApi bgisApi = Repository.getInstance().bgisApi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,39 +55,80 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         emailSignup = findViewById(R.id.edit_email_signup);
         passwordSignup = findViewById(R.id.edit_password_signup);
 
-//        registerHeader = findViewById(R.id.signupHeader);
         registerForm = findViewById(R.id.linearLayoutSignUp);
-        registerButton = findViewById(R.id.signup);
+        registerBtn = findViewById(R.id.signup);
         registerSwitch = findViewById(R.id.textViewRegister);
 
-//        loginHeader = findViewById(R.id.loginHeader);
         loginForm = findViewById(R.id.linearLayoutLogin);
-        loginButton = findViewById(R.id.login);
+        loginBtn = findViewById(R.id.login);
         loginSwitch = findViewById(R.id.textViewLogin);
 
-        registerButton.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
         registerSwitch.setOnClickListener(this);
 
-        loginButton.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
         loginSwitch.setOnClickListener(this);
 
         findViewById(R.id.skip).setOnClickListener(this);
 
-
         registerForm.animate().translationX(3000);
-//        registerHeader.animate().translationX(3000);
-        registerButton.animate().translationX(3000);
+        registerBtn.animate().translationX(3000);
         registerSwitch.animate().translationX(3000);
 
 
         // =================
-        SharedPreferences prefs = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+        mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         // уже залогинился
-        if (!prefs.getBoolean(KEY_IS_FIRST, true)) {
+        if (!mLoginViewModel.IsLogged()) {
             startMainActivity();
         }
         // =================
+
+        mLoginViewModel.getProgress().observe(this, loginState -> {
+            if (loginState == LoginViewModel.LoginState.LOGIN_FAILED) {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_FAILED) {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_ERROR) {
+                Toast.makeText(this, "Invalid login or password", Toast.LENGTH_LONG).show();
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_ERROR) {
+                Toast.makeText(this, "Invalid login or password", Toast.LENGTH_LONG).show();
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_IN_PROGRESS) {
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_IN_PROGRESS) {
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+
+            } else if (loginState == LoginViewModel.LoginState.LOGIN_SUCCESS) {
+                Toast.makeText(this, "Success login", Toast.LENGTH_LONG).show();
+                startMainActivity();
+
+            } else if (loginState == LoginViewModel.LoginState.REGISTER_SUCCESS) {
+                Toast.makeText(this, "Success, now login please", Toast.LENGTH_LONG).show();
+
+                registerForm.animate().translationX(3000);
+                registerBtn.animate().translationX(3000);
+                registerSwitch.animate().translationX(3000);
+
+                loginForm.animate().translationX(0);
+                loginBtn.animate().translationX(0);
+                loginSwitch.animate().translationX(0);
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+
+            } else {
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
+                registerBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
+            }
+        });
     }
 
     private void startMainActivity() {
@@ -147,13 +180,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(0);
-//                registerHeader.animate().translationX(0);
-                registerButton.animate().translationX(0);
+                registerBtn.animate().translationX(0);
                 registerSwitch.animate().translationX(0);
 
                 loginForm.animate().translationX(-3000);
-//                loginHeader.animate().translationX(-3000);
-                loginButton.animate().translationX(-3000);
+                loginBtn.animate().translationX(-3000);
                 loginSwitch.animate().translationX(-3000);
 
                 findViewById(R.id.login).setEnabled(true);
@@ -176,13 +207,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 registerForm.animate().translationX(3000);
-//                registerHeader.animate().translationX(3000);
-                registerButton.animate().translationX(3000);
+                registerBtn.animate().translationX(3000);
                 registerSwitch.animate().translationX(3000);
 
                 loginForm.animate().translationX(0);
-//                loginHeader.animate().translationX(0);
-                loginButton.animate().translationX(0);
+                loginBtn.animate().translationX(0);
                 loginSwitch.animate().translationX(0);
 
                 findViewById(R.id.signup).setEnabled(true);
@@ -192,12 +221,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.skip:
                 Log.d(LOG_TAG, "--- Skip ---");
 
-                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
-                // сохраняю айди незареганного пользователя
-                editor.putInt(KEY_OAUTH, -1);
-                // уже логинился
-                editor.putBoolean(KEY_IS_FIRST, false);
-                editor.apply();
+                mLoginViewModel.SkipAuth();
                 startMainActivity();
                 break;
 
@@ -226,46 +250,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        Callback<User> callback = new Callback<User>() {
-
-            @Override
-            public void onResponse(@NonNull Call<User> call, Response<User> response) {
-                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
-                User body = response.body();
-                if (body != null) {
-                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-
-                    // сохраняю айди пользователя
-                    editor.putInt(KEY_OAUTH, body.getId());
-                    // уже логинился
-                    editor.putBoolean(KEY_IS_FIRST, false);
-
-                    editor.apply();
-                    startMainActivity();
-                } else {
-                    Log.d(LOG_TAG, "--- Login OK body == null ---");
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Invalid login/password",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<User> call, Throwable t) {
-                Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Server Error",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                t.printStackTrace();
-            }
-        };
-
-        // avoid static error
-        Repository.getInstance().bgisApi.userLogin(new User(email_str, password_str)).enqueue(callback);
-        // enqueue работает в отдельном потоке
+        mLoginViewModel.login(email_str, password_str);
     }
 
     private void userRegister() {
@@ -290,50 +275,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        Callback<User> callback = new Callback<User>() {
-
-            @Override
-            public void onResponse(@NonNull Call<User> call, Response<User> response) {
-                User body = response.body();
-                if (body != null) {
-                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-
-                    registerForm.animate().translationX(3000);
-//                    registerHeader.animate().translationX(3000);
-                    registerButton.animate().translationX(3000);
-                    registerSwitch.animate().translationX(3000);
-
-                    loginForm.animate().translationX(0);
-//                    loginHeader.animate().translationX(0);
-                    loginButton.animate().translationX(0);
-                    loginSwitch.animate().translationX(0);
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Success, now login please",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    Log.d(LOG_TAG, "--- Login OK body == null ---");
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Invalid login/password",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Server Error",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                t.printStackTrace();
-            }
-        };
-
-        // avoid static error
-        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+        mLoginViewModel.register(email_str, password_str);
+//        Callback<User> callback = new Callback<User>() {
+//
+//            @Override
+//            public void onResponse(@NonNull Call<User> call, Response<User> response) {
+//                User body = response.body();
+//                if (body != null) {
+//                    Log.d(LOG_TAG, "--- Login OK body != null ---");
+//
+//                    registerForm.animate().translationX(3000);
+//                    registerBtn.animate().translationX(3000);
+//                    registerSwitch.animate().translationX(3000);
+//
+//                    loginForm.animate().translationX(0);
+//                    loginBtn.animate().translationX(0);
+//                    loginSwitch.animate().translationX(0);
+//
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            "Success, now login please",
+//                            Toast.LENGTH_SHORT);
+//                    toast.show();
+//                } else {
+//                    Log.d(LOG_TAG, "--- Login OK body == null ---");
+//
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            "Invalid login/password",
+//                            Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//                Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "Server Error",
+//                        Toast.LENGTH_SHORT);
+//                toast.show();
+//                t.printStackTrace();
+//            }
+//        };
+//
+//        // avoid static error
+//        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
     }
 }

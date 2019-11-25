@@ -16,8 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
 import com.park.smet_k.bauman_gis.Repository;
+import com.park.smet_k.bauman_gis.activity.MainActivity;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.fragments.RouteFragment;
 import com.park.smet_k.bauman_gis.fragments.RoutesListFragment;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class NavigatorFragment extends Fragment {
-    private final String LOG_TAG = "NavigatorActivity";
+    private final String LOG_TAG = "NavigatorFragment";
     private final static String KEY_IS_FIRST = "is_first";
     private final static String KEY_OAUTH = "oauth";
     private final static String STORAGE_NAME = "storage";
@@ -56,7 +56,7 @@ public class NavigatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Navigation");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Navigation");
 
         return inflater.inflate(R.layout.activity_navigator, container, false);
     }
@@ -146,7 +146,7 @@ public class NavigatorFragment extends Fragment {
 
                 @Override
                 public void onFailure(@NonNull Call<RouteModel> call, Throwable t) {
-                    Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
+                    Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
                     Toast toast = Toast.makeText(getContext(),
                             "Server Error",
                             Toast.LENGTH_SHORT);
