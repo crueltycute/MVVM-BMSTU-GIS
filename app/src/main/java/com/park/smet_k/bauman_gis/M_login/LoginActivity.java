@@ -1,7 +1,6 @@
 package com.park.smet_k.bauman_gis.M_login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView registerSwitch;
 
     private View loginForm;
-    private Button loginButton;
+    private Button loginBtn;
     private TextView loginSwitch;
 
     private LoginViewModel mLoginViewModel;
@@ -68,13 +67,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         registerSwitch = findViewById(R.id.textViewRegister);
 
         loginForm = findViewById(R.id.linearLayoutLogin);
-        loginButton = findViewById(R.id.login);
+        loginBtn = findViewById(R.id.login);
         loginSwitch = findViewById(R.id.textViewLogin);
 
         registerButton.setOnClickListener(this);
         registerSwitch.setOnClickListener(this);
 
-        loginButton.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
         loginSwitch.setOnClickListener(this);
 
         findViewById(R.id.skip).setOnClickListener(this);
@@ -92,6 +91,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startMainActivity();
         }
         // =================
+
+        mLoginViewModel.getProgress().observe(this, loginState -> {
+            if (loginState == LoginViewModel.LoginState.FAILED) {
+                loginBtn.setEnabled(true);
+                loginBtn.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+            } else if (loginState == LoginViewModel.LoginState.ERROR) {
+                loginBtn.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+                loginBtn.setEnabled(true);
+            } else if (loginState == LoginViewModel.LoginState.IN_PROGRESS) {
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
+                loginBtn.setEnabled(false);
+            } else if (loginState == LoginViewModel.LoginState.SUCCESS) {
+                Toast.makeText(this, "Success login", Toast.LENGTH_LONG).show();
+                startMainActivity();
+            } else {
+                loginBtn.setBackground(this.getDrawable(android.R.drawable.btn_default));
+                loginBtn.setEnabled(true);
+            }
+        });
     }
 
     private void startMainActivity() {
@@ -147,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 registerSwitch.animate().translationX(0);
 
                 loginForm.animate().translationX(-3000);
-                loginButton.animate().translationX(-3000);
+                loginBtn.animate().translationX(-3000);
                 loginSwitch.animate().translationX(-3000);
 
                 findViewById(R.id.login).setEnabled(true);
@@ -174,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 registerSwitch.animate().translationX(3000);
 
                 loginForm.animate().translationX(0);
-                loginButton.animate().translationX(0);
+                loginBtn.animate().translationX(0);
                 loginSwitch.animate().translationX(0);
 
                 findViewById(R.id.signup).setEnabled(true);
@@ -220,46 +238,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        Callback<User> callback = new Callback<User>() {
-
-            @Override
-            public void onResponse(@NonNull Call<User> call, Response<User> response) {
-                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
-                User body = response.body();
-                if (body != null) {
-                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-
-                    // сохраняю айди пользователя
-                    editor.putInt(KEY_OAUTH, body.getId());
-                    // уже логинился
-                    editor.putBoolean(KEY_IS_FIRST, false);
-
-                    editor.apply();
-                    startMainActivity();
-                } else {
-                    Log.d(LOG_TAG, "--- Login OK body == null ---");
-
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Invalid login/password",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<User> call, Throwable t) {
-                Log.d(LOG_TAG, "--- Login ERROR onFailure ---");
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Server Error",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                t.printStackTrace();
-            }
-        };
-
-        // avoid static error
-        Repository.getInstance().bgisApi.userLogin(new User(email_str, password_str)).enqueue(callback);
-        // enqueue работает в отдельном потоке
+        mLoginViewModel.login(email_str, password_str);
     }
 
     private void userRegister() {
@@ -297,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     registerSwitch.animate().translationX(3000);
 
                     loginForm.animate().translationX(0);
-                    loginButton.animate().translationX(0);
+                    loginBtn.animate().translationX(0);
                     loginSwitch.animate().translationX(0);
 
                     Toast toast = Toast.makeText(getApplicationContext(),
