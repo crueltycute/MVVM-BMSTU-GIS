@@ -95,9 +95,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginViewModel.getProgress().observe(this, loginState -> {
             if (loginState == LoginViewModel.LoginState.FAILED) {
                 loginBtn.setEnabled(true);
-                loginBtn.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
             } else if (loginState == LoginViewModel.LoginState.ERROR) {
-                loginBtn.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
                 loginBtn.setEnabled(true);
             } else if (loginState == LoginViewModel.LoginState.IN_PROGRESS) {
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Success login", Toast.LENGTH_LONG).show();
                 startMainActivity();
             } else {
-                loginBtn.setBackground(this.getDrawable(android.R.drawable.btn_default));
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
                 loginBtn.setEnabled(true);
             }
         });
