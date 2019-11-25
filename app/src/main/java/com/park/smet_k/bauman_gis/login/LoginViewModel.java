@@ -75,6 +75,8 @@ public class LoginViewModel extends AndroidViewModel {
         } else if (mLoginState.getValue() != LoginState.REGISTER_IN_PROGRESS) {
             requestRegister(loginData);
 
+
+            // TODO выпилить этот костыль)00000
             requestLogin(loginData);
         }
     }
