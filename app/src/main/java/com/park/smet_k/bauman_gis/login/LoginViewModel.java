@@ -74,10 +74,6 @@ public class LoginViewModel extends AndroidViewModel {
             Log.w("LoginViewModel", "Ignoring duplicate request with login data");
         } else if (mLoginState.getValue() != LoginState.REGISTER_IN_PROGRESS) {
             requestRegister(loginData);
-
-
-            // TODO выпилить этот костыль)00000
-            requestLogin(loginData);
         }
     }
 
