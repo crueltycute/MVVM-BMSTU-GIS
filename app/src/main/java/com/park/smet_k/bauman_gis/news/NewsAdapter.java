@@ -14,14 +14,16 @@ import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.model.News;
 import com.park.smet_k.bauman_gis.utils.OnItemClickListner;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerViewHolder> {
     private final LayoutInflater layoutInflater;
     private List<News> data;
     private final OnItemClickListner<News> onItemClickListener;
-
 
     public NewsAdapter(Context context, OnItemClickListner<News> onItemClickListener) {
         layoutInflater = LayoutInflater.from(context);
@@ -71,7 +73,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerVi
         }
 
         void bind(final News i, OnItemClickListner onItemClickListener) {
-            mBackground.setImageResource(R.drawable.news_bg);
+            int hash = (i.getPayload().length() + i.getTitle().length()) % 8;
+            getBackground(hash);
+
             mTitle.setText(i.getTitle());
 //            mTime.setText(i.getTime().toString());
             mPayload.setText(i.getPayload());
@@ -79,5 +83,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerVi
             itemView.setOnClickListener(v -> onItemClickListener.onItemClick(i));
         }
 
+        private void getBackground(int hash) {
+            switch (hash) {
+                case 0:
+                    mBackground.setImageResource(R.drawable.bg_1);
+                    break;
+                case 1:
+                    mBackground.setImageResource(R.drawable.bg_2);
+                    break;
+                case 2:
+                    mBackground.setImageResource(R.drawable.bg_3);
+                    break;
+                case 3:
+                    mBackground.setImageResource(R.drawable.bg_4);
+                    break;
+                case 4:
+                    mBackground.setImageResource(R.drawable.bg_5);
+                    break;
+                case 5:
+                    mBackground.setImageResource(R.drawable.bg_6);
+                    break;
+                case 6:
+                    mBackground.setImageResource(R.drawable.bg_7);
+                    break;
+                case 7:
+                    mBackground.setImageResource(R.drawable.bg_8);
+                    break;
+            }
+        }
     }
 }
