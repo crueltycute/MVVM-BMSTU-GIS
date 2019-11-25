@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.recycler;
+package com.park.smet_k.bauman_gis.navigation;
 
 import android.content.Context;
 import android.view.LayoutInflater;

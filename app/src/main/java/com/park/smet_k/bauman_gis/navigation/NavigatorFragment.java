@@ -1,13 +1,11 @@
-package com.park.smet_k.bauman_gis.M_navigator;
+package com.park.smet_k.bauman_gis.navigation;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,21 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.Repository;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
+import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.database.DBWorker;
-import com.park.smet_k.bauman_gis.fragments.RouteFragment;
-import com.park.smet_k.bauman_gis.fragments.RoutesListFragment;
-import com.park.smet_k.bauman_gis.model.RouteModel;
-import com.park.smet_k.bauman_gis.model.RoutePoint;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class NavigatorFragment extends Fragment {
     private final String LOG_TAG = "NavigatorFragment";

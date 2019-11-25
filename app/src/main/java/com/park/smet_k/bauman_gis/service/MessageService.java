@@ -10,7 +10,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
+import com.park.smet_k.bauman_gis.main.MainActivity;
 
 public class MessageService extends FirebaseMessagingService {
 

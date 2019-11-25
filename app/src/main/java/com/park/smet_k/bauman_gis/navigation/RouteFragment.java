@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.fragments;
+package com.park.smet_k.bauman_gis.navigation;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,10 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.model.RoutePoint;
 import com.park.smet_k.bauman_gis.model.Stairs;
-import com.park.smet_k.bauman_gis.recycler.AdapterPathList;
 import com.park.smet_k.bauman_gis.searchMap.AStarSearch;
 import com.park.smet_k.bauman_gis.searchMap.GridLocation;
 

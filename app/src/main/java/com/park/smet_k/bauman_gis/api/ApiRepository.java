@@ -1,9 +1,8 @@
-package com.park.smet_k.bauman_gis.M_api;
+package com.park.smet_k.bauman_gis.api;
 
 import android.content.Context;
 
 import com.park.smet_k.bauman_gis.App;
-import com.park.smet_k.bauman_gis.api.BgisApi;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;

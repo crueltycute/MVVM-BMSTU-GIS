@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_news;
+package com.park.smet_k.bauman_gis.news;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.park.smet_k.bauman_gis.M_api.ApiRepository;
+import com.park.smet_k.bauman_gis.api.ApiRepository;
 import com.park.smet_k.bauman_gis.api.BgisApi;
 import com.park.smet_k.bauman_gis.model.News;
 import com.park.smet_k.bauman_gis.model.NewsModel;

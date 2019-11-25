@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_login;
+package com.park.smet_k.bauman_gis.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
+import com.park.smet_k.bauman_gis.main.MainActivity;
 
 import java.util.Objects;
 

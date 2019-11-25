@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.recycler;
+package com.park.smet_k.bauman_gis.navigation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.model.News;
 import com.park.smet_k.bauman_gis.utils.OnItemClickListner;
 
 import java.util.ArrayList;

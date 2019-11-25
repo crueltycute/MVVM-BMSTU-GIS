@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_login;
+package com.park.smet_k.bauman_gis.login;
 
 import android.app.Application;
 import android.text.TextUtils;

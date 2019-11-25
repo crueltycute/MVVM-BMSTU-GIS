@@ -3,7 +3,7 @@ package com.park.smet_k.bauman_gis;
 import android.app.Application;
 import android.content.Context;
 
-import com.park.smet_k.bauman_gis.M_api.ApiRepository;
+import com.park.smet_k.bauman_gis.api.ApiRepository;
 import com.park.smet_k.bauman_gis.prefs.PreferencesRepository;
 
 public class App extends Application {

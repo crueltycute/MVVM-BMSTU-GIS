@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.activity;
+package com.park.smet_k.bauman_gis.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.park.smet_k.bauman_gis.M_login.LoginActivity;
-import com.park.smet_k.bauman_gis.M_navigator.NavigatorFragment;
-import com.park.smet_k.bauman_gis.M_news.NewsFragment;
+import com.park.smet_k.bauman_gis.login.LoginActivity;
+import com.park.smet_k.bauman_gis.navigation.NavigatorFragment;
+import com.park.smet_k.bauman_gis.news.NewsFragment;
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.database.DBWorker;
-import com.park.smet_k.bauman_gis.fragments.AccountFragment;
-import com.park.smet_k.bauman_gis.fragments.SettingsFragment;
+import com.park.smet_k.bauman_gis.settings.SettingsFragment;
 import com.park.smet_k.bauman_gis.model.RouteModel;
 import com.park.smet_k.bauman_gis.model.User;
 

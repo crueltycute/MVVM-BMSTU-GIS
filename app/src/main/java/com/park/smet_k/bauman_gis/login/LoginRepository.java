@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_login;
+package com.park.smet_k.bauman_gis.login;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.park.smet_k.bauman_gis.M_api.ApiRepository;
+import com.park.smet_k.bauman_gis.api.ApiRepository;
 import com.park.smet_k.bauman_gis.api.BgisApi;
 import com.park.smet_k.bauman_gis.model.User;
 import com.park.smet_k.bauman_gis.prefs.PreferencesRepository;

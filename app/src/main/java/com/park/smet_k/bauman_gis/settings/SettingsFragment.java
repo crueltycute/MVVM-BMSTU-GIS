@@ -1,6 +1,5 @@
-package com.park.smet_k.bauman_gis.fragments;
+package com.park.smet_k.bauman_gis.settings;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
-import com.park.smet_k.bauman_gis.Repository;
+import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.database.DBWorker;
-import com.park.smet_k.bauman_gis.model.Message;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 // TODO(): переделать настройки на PreferenceFragmentCompat
 // https://developer.android.com/guide/topics/ui/settings/?hl=ru

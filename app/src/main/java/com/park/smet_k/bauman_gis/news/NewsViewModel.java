@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_news;
+package com.park.smet_k.bauman_gis.news;
 
 import android.app.Application;
 

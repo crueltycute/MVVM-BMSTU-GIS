@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.fragments;
+package com.park.smet_k.bauman_gis.navigation;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.Repository;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.model.Route;
-import com.park.smet_k.bauman_gis.recycler.AdapterRoutesList;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis;
+package com.park.smet_k.bauman_gis.navigation;
 
 import android.content.Context;
 import android.content.SharedPreferences;

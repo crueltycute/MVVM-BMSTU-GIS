@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.fragments;
+package com.park.smet_k.bauman_gis.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
 
 public class AccountFragment extends Fragment {
 

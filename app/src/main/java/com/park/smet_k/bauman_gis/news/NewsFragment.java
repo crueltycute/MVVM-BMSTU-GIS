@@ -1,4 +1,4 @@
-package com.park.smet_k.bauman_gis.M_news;
+package com.park.smet_k.bauman_gis.news;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.activity.MainActivity;
+import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.model.News;
 
 import java.util.List;
