@@ -28,12 +28,17 @@
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="sans-serif-light"
+        android:shadowColor="@color/colorShadow"
+        android:shadowDx="0"
+        android:shadowDy="10"
+        android:shadowRadius="4"
         android:layout_above="@+id/linearLayoutLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
         android:text="@string/app_name"
         android:textColor="@color/colorPrimary"
-        android:textSize="36sp" />
+        android:textSize="60sp" />
 
     <LinearLayout
         android:id="@+id/linearLayoutLogin"
