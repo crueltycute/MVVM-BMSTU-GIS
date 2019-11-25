@@ -62,7 +62,7 @@ public class NewsRepository {
         for (NewsModel newsModel : modelList) {
             try {
                 News news = map(newsModel);
-                res.add(news);
+                res.add(0, news);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
