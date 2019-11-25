@@ -94,20 +94,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mLoginViewModel.getProgress().observe(this, loginState -> {
             if (loginState == LoginViewModel.LoginState.FAILED) {
-                loginBtn.setEnabled(true);
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
             } else if (loginState == LoginViewModel.LoginState.ERROR) {
+                Toast.makeText(this, "Invalid login or password", Toast.LENGTH_LONG).show();
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_error));
-                loginBtn.setEnabled(true);
             } else if (loginState == LoginViewModel.LoginState.IN_PROGRESS) {
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn_process));
-                loginBtn.setEnabled(false);
             } else if (loginState == LoginViewModel.LoginState.SUCCESS) {
                 Toast.makeText(this, "Success login", Toast.LENGTH_LONG).show();
                 startMainActivity();
             } else {
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.contained_rounded_btn));
-                loginBtn.setEnabled(true);
             }
         });
     }
@@ -201,13 +199,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.skip:
                 Log.d(LOG_TAG, "--- Skip ---");
-
-//                SharedPreferences.Editor editor = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE).edit();
-//                // сохраняю айди незареганного пользователя
-//                editor.putInt(KEY_OAUTH, -1);
-//                // уже логинился
-//                editor.putBoolean(KEY_IS_FIRST, false);
-//                editor.apply();
 
                 mLoginViewModel.SkipAuth();
                 startMainActivity();
