@@ -59,7 +59,7 @@ public class SettingsFragment extends Fragment {
             return;
 //            Repository.getInstance().dbWorker.truncate(dbWorker);
 //            SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-////            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+//            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
 //
 //            Integer userId = preferences.getInt(KEY_OAUTH, -1);
 //

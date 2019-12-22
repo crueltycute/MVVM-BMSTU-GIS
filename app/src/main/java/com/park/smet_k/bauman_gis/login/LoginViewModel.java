@@ -30,7 +30,6 @@ public class LoginViewModel extends AndroidViewModel {
         new LoginRepository(getApplication()).SkipAuth();
     }
 
-
     public LiveData<LoginState> getProgress() {
         return mLoginState;
     }
@@ -92,7 +91,6 @@ public class LoginViewModel extends AndroidViewModel {
             }
         });
     }
-
 
     enum LoginState {
         NONE,
