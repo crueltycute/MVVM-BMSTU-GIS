@@ -1,7 +1,9 @@
 package com.park.smet_k.bauman_gis.navigation;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.model.GoRoute;
 
+import java.util.List;
 import java.util.Objects;
 
 public class NavigatorFragment extends Fragment {
@@ -68,7 +71,7 @@ public class NavigatorFragment extends Fragment {
                 .commit();
 
         // создаем объект для создания и управления версиями БД
-        dbHelper = new DBWorker(getActivity());
+//        dbHelper = new DBWorker(getActivity());
 
         Observer<GoRoute> observer = goRoute -> {
             Log.d(LOG_TAG, "here");
@@ -82,7 +85,8 @@ public class NavigatorFragment extends Fragment {
             }
 
             if (!goRoute.getPoints().isEmpty()) {
-                mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
+                List<Pair<Bitmap, Integer>> route = mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
+                toggleState(route);
             }
         };
 
@@ -96,6 +100,7 @@ public class NavigatorFragment extends Fragment {
 
         mNavigatorViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
                 .get(NavigatorViewModel.class);
+
         mNavigatorViewModel
                 .getRoute()
                 .observe(getViewLifecycleOwner(), observer);
@@ -113,31 +118,8 @@ public class NavigatorFragment extends Fragment {
             EditText check_edit = view.findViewById(R.id.InputFrom);
             cur_from = check_edit.getText().toString();
 
-//            if (!Repository.getInstance().PointsMap.containsKey(cur_from)) {
-//                check_edit.setError("Unknown value");
-//                check_edit.requestFocus();
-//                Toast toast = Toast.makeText(getContext(),
-//                        "Unknown first point",
-//                        Toast.LENGTH_SHORT);
-//                toast.show();
-//                return;
-//            }
-
             check_edit = view.findViewById(R.id.InputTo);
             cur_to = check_edit.getText().toString();
-
-//            if (!Repository.getInstance().PointsMap.containsKey(cur_to)) {
-//                check_edit.setError("Unknown value");
-//                check_edit.requestFocus();
-//                Toast toast = Toast.makeText(getContext(),
-//                        "Unknown last point",
-//                        Toast.LENGTH_SHORT);
-//                toast.show();
-//                return;
-//            }
-
-//            RoutePoint pointFrom = Repository.getInstance().PointsMap.get(cur_from);
-//            RoutePoint pointTo = Repository.getInstance().PointsMap.get(cur_to);
 
             if (cur_from.equals(cur_to)) {
                 Toast toast = Toast.makeText(getContext(),
@@ -207,12 +189,12 @@ public class NavigatorFragment extends Fragment {
 
     }
 
-    private void toggleState() {
+    private void toggleState(List<Pair<Bitmap, Integer>> images) {
         FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         Fragment bottom = getActivity().getSupportFragmentManager().findFragmentById(R.id.TopFrame);
 
-        RouteFragment routeFragment = RouteFragment.newInstance(cur_from, cur_to);
+        RouteFragment routeFragment = RouteFragment.newInstance(images);
 
         if (bottom != null && bottom.isAdded()) {
             transaction.remove(bottom);
