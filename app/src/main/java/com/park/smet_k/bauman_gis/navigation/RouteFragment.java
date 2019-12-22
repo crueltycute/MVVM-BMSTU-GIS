@@ -44,7 +44,6 @@ public class RouteFragment extends Fragment {
     private RecyclerView mapsList;
     private List<Pair<Bitmap, Integer>> pathList = new ArrayList<>();
 
-
     // насколько нужно умножать пискельные координаты,
     // чтобы они легли на битмапу нормально, без искажений
     float multiplyDP = 3;
