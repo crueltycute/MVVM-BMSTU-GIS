@@ -106,7 +106,7 @@ public class NavigatorFragment extends Fragment {
 
 
         // TODO: delete
-        mNavigatorViewModel.find("TP", "51");
+        mNavigatorViewModel.find("TP", "s_2");
 
         startNewActivityBtn.setOnClickListener(v -> {
 

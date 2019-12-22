@@ -65,7 +65,9 @@ public class NavigatorViewModel extends AndroidViewModel {
         Integer newLevel = level;
 
         // TODO: поехало все
-        for (int i = 0; i < route.size() - 1; i++) {
+        for (int i = 0; i < route.size(); i++) {
+            newLevel = route.get(i).getLevel();
+
             if (!newLevel.equals(level)) {
                 Bitmap merge = overlay(bitmapImg1, bitmapImg);
                 pathList.add(new Pair<>(merge, level));
@@ -107,10 +109,6 @@ public class NavigatorViewModel extends AndroidViewModel {
                         (route.get(i).getX() * multiplyW + 1120),
                         20, p);
             }
-
-
-            newLevel = route.get(i).getLevel();
-
         }
 
         Bitmap merge = overlay(bitmapImg1, bitmapImg);
