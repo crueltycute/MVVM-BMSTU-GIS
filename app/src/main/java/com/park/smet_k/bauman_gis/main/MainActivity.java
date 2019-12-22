@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.park.smet_k.bauman_gis.api.ApiRepository;
+import com.park.smet_k.bauman_gis.api.BgisApi;
 import com.park.smet_k.bauman_gis.login.LoginActivity;
 import com.park.smet_k.bauman_gis.navigation.NavigatorFragment;
 import com.park.smet_k.bauman_gis.news.NewsFragment;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private String LOG_TAG = "MainActivity";
 
+    private BgisApi mApiRepo;
+
     private final static String KEY_IS_FIRST = "is_first";
     private final static String KEY_OAUTH = "oauth";
     private final static String STORAGE_NAME = "storage";
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mApiRepo = ApiRepository.from(getApplication()).getAPI();
 
         // если первый раз запустил приложуху
         SharedPreferences preferences = getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
@@ -177,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             };
 
-            // avoid static error
-//            Repository.getInstance().bgisApi.getUserInfo(userId).enqueue(callback);
+            mApiRepo.getUserInfo(userId).enqueue(callback);
         } else {
             NavigationView navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
