@@ -22,7 +22,8 @@ public class SearchApiRepository {
                 .addConverterFactory(MoshiConverterFactory.create())
                 .baseUrl(new HttpUrl.Builder()
                         .scheme("https")
-                        .host("95.163.214.14:8000")
+                        .host("95.163.214.14")
+                        .port(8000)
                         .build())
                 .client(mOkHttpClient)
                 .build();
