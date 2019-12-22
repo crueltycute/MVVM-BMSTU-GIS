@@ -1,6 +1,5 @@
 package com.park.smet_k.bauman_gis.api;
 
-import com.park.smet_k.bauman_gis.model.GoRoute;
 import com.park.smet_k.bauman_gis.model.Message;
 import com.park.smet_k.bauman_gis.model.NewsModel;
 import com.park.smet_k.bauman_gis.model.RouteModel;
@@ -55,10 +54,3 @@ public interface BgisApi {
     Call<List<NewsModel>> getNews();
 }
 
-public interface SearchApi {
-    String BASE_URL = "http://95.163.214.14:8000/api/map/search?from=1&to=kek";
-
-    @GET("/map/search")
-    Call<GoRoute>
-
-}
