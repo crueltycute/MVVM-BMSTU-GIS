@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,8 +18,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.main.MainActivity;
+import com.park.smet_k.bauman_gis.model.User;
+import com.park.smet_k.bauman_gis.api.BgisApi;
 
 import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final String LOG_TAG = "LoginActivity";
@@ -41,6 +51,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView loginSwitch;
 
     private LoginViewModel mLoginViewModel;
+
+    public final BgisApi bgisApi;
+
+    public LoginActivity() {
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(chain ->
+                        chain.proceed(
+                                chain.request().newBuilder()
+                                        .build()))
+                .build();
+
+        this.bgisApi = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .baseUrl(BgisApi.BASE_URL)
+                .build()
+                .create(BgisApi.class);
+    }
 
 
     @Override
@@ -276,48 +304,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         mLoginViewModel.register(email_str, password_str);
-//        Callback<User> callback = new Callback<User>() {
-//
-//            @Override
-//            public void onResponse(@NonNull Call<User> call, Response<User> response) {
-//                User body = response.body();
-//                if (body != null) {
-//                    Log.d(LOG_TAG, "--- Login OK body != null ---");
-//
-//                    registerForm.animate().translationX(3000);
-//                    registerBtn.animate().translationX(3000);
-//                    registerSwitch.animate().translationX(3000);
-//
-//                    loginForm.animate().translationX(0);
-//                    loginBtn.animate().translationX(0);
-//                    loginSwitch.animate().translationX(0);
-//
-//                    Toast toast = Toast.makeText(getApplicationContext(),
-//                            "Success, now login please",
-//                            Toast.LENGTH_SHORT);
-//                    toast.show();
-//                } else {
-//                    Log.d(LOG_TAG, "--- Login OK body == null ---");
-//
-//                    Toast toast = Toast.makeText(getApplicationContext(),
-//                            "Invalid login/password",
-//                            Toast.LENGTH_SHORT);
-//                    toast.show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<User> call, Throwable t) {
-//                Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
-//                Toast toast = Toast.makeText(getApplicationContext(),
-//                        "Server Error",
-//                        Toast.LENGTH_SHORT);
-//                toast.show();
-//                t.printStackTrace();
-//            }
-//        };
-//
-//        // avoid static error
-//        Repository.getInstance().bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+        Log.d("PRINTING", "------------------------------ register --------------------");
+        Callback<User> callback = new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, Response<User> response) {
+                User body = response.body();
+                if (body != null) {
+                    Log.d(LOG_TAG, "--- Login OK body != null ---");
+
+                    registerForm.animate().translationX(3000);
+                    registerBtn.animate().translationX(3000);
+                    registerSwitch.animate().translationX(3000);
+
+                    loginForm.animate().translationX(0);
+                    loginBtn.animate().translationX(0);
+                    loginSwitch.animate().translationX(0);
+
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Success, now login please",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Log.d(LOG_TAG, "--- Login OK body == null ---");
+
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Invalid login/password",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Server Error",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                t.printStackTrace();
+            }
+        };
+
+        Log.d(email_str, password_str);
+        Log.d("!!!!REGISTER DATA!!!!", "!!!!REGISTER DATA!!!!");
+
+        // avoid static error
+        try {
+            bgisApi.userSignUp(new User(email_str, password_str)).enqueue(callback);
+            Log.d("fails", "on register!");
+        } catch (Error ignored) {}
     }
 }
