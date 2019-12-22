@@ -76,6 +76,14 @@ public class NavigatorFragment extends Fragment {
                     "found",
                     Toast.LENGTH_SHORT);
             toast.show();
+
+            if (goRoute.getPoints() == null) {
+                return;
+            }
+
+            if (!goRoute.getPoints().isEmpty()) {
+                mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
+            }
         };
 
         Observer<String> observerError = error -> {
@@ -96,6 +104,9 @@ public class NavigatorFragment extends Fragment {
                 .getError()
                 .observe(getViewLifecycleOwner(), observerError);
 
+
+        // TODO: delete
+        mNavigatorViewModel.find("TP", "51");
 
         startNewActivityBtn.setOnClickListener(v -> {
 
