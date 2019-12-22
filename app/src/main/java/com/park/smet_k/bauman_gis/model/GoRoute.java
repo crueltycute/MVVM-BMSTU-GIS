@@ -8,6 +8,9 @@ public class GoRoute {
     @SerializedName("points")
     private List<GoPoint> points;
 
+    public GoRoute() {
+    }
+
     public GoRoute(List<GoPoint> points) {
         this.points = points;
     }

@@ -35,7 +35,7 @@ public class SearchApiRepository {
         return mAPI;
     }
 
-    public static ApiRepository from(Context context) {
-        return App.from(context).getApiRepo();
+    public static SearchApiRepository from(Context context) {
+        return App.from(context).getmSearchApiRepo();
     }
 }
