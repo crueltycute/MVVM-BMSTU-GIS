@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,11 +70,20 @@ public class NavigatorFragment extends Fragment {
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBWorker(getActivity());
 
-        Observer<GoRoute> observer = new Observer<GoRoute>() {
-            @Override
-            public void onChanged(GoRoute goRoute) {
-                Log.d(LOG_TAG, "here");
-            }
+        Observer<GoRoute> observer = goRoute -> {
+            Log.d(LOG_TAG, "here");
+            Toast toast = Toast.makeText(getContext(),
+                    "found",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        };
+
+        Observer<String> observerError = error -> {
+            Log.d(LOG_TAG, error);
+            Toast toast = Toast.makeText(getContext(),
+                    error,
+                    Toast.LENGTH_SHORT);
+            toast.show();
         };
 
         mNavigatorViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
@@ -82,18 +92,16 @@ public class NavigatorFragment extends Fragment {
                 .getRoute()
                 .observe(getViewLifecycleOwner(), observer);
 
-        mNavigatorViewModel.find("TP", "21");
+        mNavigatorViewModel
+                .getError()
+                .observe(getViewLifecycleOwner(), observerError);
 
 
         startNewActivityBtn.setOnClickListener(v -> {
-            Toast toast = Toast.makeText(getContext(),
-                    "Мы сломали :(",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-            return;
-//            EditText check_edit = view.findViewById(R.id.InputFrom);
-//            cur_from = check_edit.getText().toString();
-//
+
+            EditText check_edit = view.findViewById(R.id.InputFrom);
+            cur_from = check_edit.getText().toString();
+
 //            if (!Repository.getInstance().PointsMap.containsKey(cur_from)) {
 //                check_edit.setError("Unknown value");
 //                check_edit.requestFocus();
@@ -103,10 +111,10 @@ public class NavigatorFragment extends Fragment {
 //                toast.show();
 //                return;
 //            }
-//
-//            check_edit = view.findViewById(R.id.InputTo);
-//            cur_to = check_edit.getText().toString();
-//
+
+            check_edit = view.findViewById(R.id.InputTo);
+            cur_to = check_edit.getText().toString();
+
 //            if (!Repository.getInstance().PointsMap.containsKey(cur_to)) {
 //                check_edit.setError("Unknown value");
 //                check_edit.requestFocus();
@@ -116,18 +124,22 @@ public class NavigatorFragment extends Fragment {
 //                toast.show();
 //                return;
 //            }
-//
+
 //            RoutePoint pointFrom = Repository.getInstance().PointsMap.get(cur_from);
 //            RoutePoint pointTo = Repository.getInstance().PointsMap.get(cur_to);
-//
-//            if (pointFrom.getName().equals(pointTo.getName())) {
-//                Toast toast = Toast.makeText(getContext(),
-//                        "points are same",
-//                        Toast.LENGTH_SHORT);
-//                toast.show();
-//                return;
-//            }
-//
+
+            if (cur_from.equals(cur_to)) {
+                Toast toast = Toast.makeText(getContext(),
+                        "points are same",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
+            mNavigatorViewModel.find(cur_from, cur_to);
+
+            // TODO(nmerk): show loader
+
 //            if (Repository.getInstance().StairsGraph == null || Repository.getInstance().StairsGraph.getGraphSize() == 0) {
 //                Toast toast = Toast.makeText(getContext(),
 //                        "stairs graph empty",
@@ -143,7 +155,7 @@ public class NavigatorFragment extends Fragment {
 //                toast.show();
 //                return;
 //            }
-//
+
 //            // заносим данные в БД
 //            Repository.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
 //
@@ -178,7 +190,7 @@ public class NavigatorFragment extends Fragment {
 //            assert pointFrom != null;
 //            assert pointTo != null;
 //            Repository.getInstance().bgisApi.pushRoute(new RouteModel(userId, pointFrom.getName(), pointTo.getName())).enqueue(callback);
-//
+
 //            toggleState();
         });
 

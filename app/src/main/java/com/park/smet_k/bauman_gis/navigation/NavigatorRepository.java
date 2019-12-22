@@ -16,9 +16,11 @@ import retrofit2.Response;
 
 public class NavigatorRepository {
     private final static MutableLiveData<GoRoute> mRoute = new MutableLiveData<>();
+    private final static MutableLiveData<String> mError = new MutableLiveData<>();
 
     static {
         mRoute.setValue(new GoRoute());
+        mError.setValue("");
     }
 
     private final Context mContext;
@@ -33,12 +35,23 @@ public class NavigatorRepository {
         return mRoute;
     }
 
+    public MutableLiveData<String> getError() {
+        return mError;
+    }
+
     public void find(String from, String to) {
         mApi.getRoute(from, to).enqueue(new Callback<GoRoute>() {
             @Override
             public void onResponse(Call<GoRoute> call, Response<GoRoute> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     mRoute.postValue(response.body());
+                }
+                if (!response.isSuccessful()) {
+                    if (response.body() != null) {
+                        mError.postValue("can't to request, reason: " + response.body());
+                    } else {
+                        mError.postValue("can't to request, got code: " + response.code());
+                    }
                 }
             }
 

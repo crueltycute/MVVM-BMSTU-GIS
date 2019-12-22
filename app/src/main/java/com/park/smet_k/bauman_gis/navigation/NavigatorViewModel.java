@@ -11,6 +11,7 @@ import com.park.smet_k.bauman_gis.model.GoRoute;
 public class NavigatorViewModel extends AndroidViewModel {
     private NavigatorRepository mNavRepo = new NavigatorRepository(getApplication());
     private LiveData<GoRoute> mRoute = mNavRepo.getRoute();
+    private LiveData<String> mError = mNavRepo.getError();
 
     public NavigatorViewModel(@NonNull Application application) {
         super(application);
@@ -18,6 +19,10 @@ public class NavigatorViewModel extends AndroidViewModel {
 
     public LiveData<GoRoute> getRoute() {
         return mRoute;
+    }
+
+    public LiveData<String> getError() {
+        return mError;
     }
 
     public void find(String from, String to) {
