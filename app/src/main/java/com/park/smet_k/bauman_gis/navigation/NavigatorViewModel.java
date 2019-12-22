@@ -16,7 +16,7 @@ public class NavigatorViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<GoRoute> getNews() {
+    public LiveData<GoRoute> getRoute() {
         return mRoute;
     }
 

@@ -21,7 +21,7 @@ public class SearchApiRepository {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create())
                 .baseUrl(new HttpUrl.Builder()
-                        .scheme("https")
+                        .scheme("http")
                         .host("95.163.214.14")
                         .port(8000)
                         .build())

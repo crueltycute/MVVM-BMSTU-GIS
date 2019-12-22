@@ -12,14 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.database.DBWorker;
+import com.park.smet_k.bauman_gis.main.MainActivity;
+import com.park.smet_k.bauman_gis.model.GoRoute;
 
 import java.util.Objects;
 
 public class NavigatorFragment extends Fragment {
+    private NavigatorViewModel mNavigatorViewModel;
+
+
     private final String LOG_TAG = "NavigatorFragment";
     private final static String KEY_IS_FIRST = "is_first";
     private final static String KEY_OAUTH = "oauth";
@@ -62,6 +68,22 @@ public class NavigatorFragment extends Fragment {
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBWorker(getActivity());
+
+        Observer<GoRoute> observer = new Observer<GoRoute>() {
+            @Override
+            public void onChanged(GoRoute goRoute) {
+                Log.d(LOG_TAG, "here");
+            }
+        };
+
+        mNavigatorViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
+                .get(NavigatorViewModel.class);
+        mNavigatorViewModel
+                .getRoute()
+                .observe(getViewLifecycleOwner(), observer);
+
+        mNavigatorViewModel.find("TP", "21");
+
 
         startNewActivityBtn.setOnClickListener(v -> {
             Toast toast = Toast.makeText(getContext(),

@@ -8,9 +8,9 @@ import retrofit2.http.Query;
 
 public interface SearchApi {
     //    String BASE_URL = "http://95.163.214.14:8000/api/map/search?from=1&to=kek";
-    String BASE_URL = "http://95.163.214.14:8000/api";
+    String BASE_URL = "http://95.163.214.14:8000";
 
 
-    @GET("/map/search")
+    @GET("/api/map/search")
     Call<GoRoute> getRoute(@Query("from") String from, @Query("to") String to);
 }
