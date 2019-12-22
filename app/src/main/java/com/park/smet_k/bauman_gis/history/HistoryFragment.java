@@ -46,16 +46,19 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle("History");
 
-        return inflater.inflate(R.layout.history_fragment, container, false);
+        return inflater.inflate(R.layout.item_history, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = view.findViewById(R.id.news_list);
+        mRecyclerView = view.findViewById(R.id.history_list);
 
         HistoryAdapter historyAdapter = new HistoryAdapter(getContext(), this::onItemClick);
 
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(historyAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
         Observer<List<History>> observer = new Observer<List<History>>() {
             @Override
