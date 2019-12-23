@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.park.smet_k.bauman_gis.api.ApiRepository;
 import com.park.smet_k.bauman_gis.api.BgisApi;
+import com.park.smet_k.bauman_gis.history.HistoryFragment;
 import com.park.smet_k.bauman_gis.login.LoginActivity;
 import com.park.smet_k.bauman_gis.navigation.NavigatorFragment;
 import com.park.smet_k.bauman_gis.news.NewsFragment;
@@ -225,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawers();
                 break;
             }
-            case R.id.favorites: {
+            case R.id.history: {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, FavoriteFragment.newInstance())
+                        .replace(R.id.container, HistoryFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
 
