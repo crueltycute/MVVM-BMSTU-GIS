@@ -46,7 +46,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle("History");
 
-        return inflater.inflate(R.layout.item_history, container, false);
+        return inflater.inflate(R.layout.server_history_fragment, container, false);
     }
 
     @Override

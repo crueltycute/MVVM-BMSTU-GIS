@@ -49,6 +49,9 @@ public class NavigatorViewModel extends AndroidViewModel {
 
         float multiplyH = (float) height / 1080;
         float multiplyW = (float) width / 1280;
+
+        float multiplyTestH = (float) 1080 / 864;
+        float multiplyTestW = (float) 1280 / 1024;
         List<Pair<Bitmap, Integer>> pathList = new ArrayList<>();
 
         Bitmap bitmapImg = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -57,12 +60,15 @@ public class NavigatorViewModel extends AndroidViewModel {
         p.setColor(res.getColor(R.color.colorPrimary));
         p.setStrokeWidth(5);
 
-
         bitmapImg = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmapImg);
 
         Integer level = route.get(0).getLevel();
         Integer newLevel = level;
+
+        int delta = width - height;
+        float xKek = 50;
+        float yKek = 120;
 
         // TODO: поехало все
         for (int i = 0; i < route.size(); i++) {
@@ -82,15 +88,15 @@ public class NavigatorViewModel extends AndroidViewModel {
                 p.setTextAlign(Paint.Align.RIGHT);
                 p.setTextSize(40);
                 canvas.drawText(route.get(i).getName(),
-                        (route.get(i).getY()) * multiplyH + 160,
-                        (route.get(i).getX()) * multiplyW + 1100,
+                        (route.get(i).getY() + xKek) * multiplyH,
+                        (route.get(i).getX() + yKek) * multiplyW + delta,
                         p);
 
                 p.setColor(res.getColor(R.color.colorAccent));
 
                 canvas.drawCircle(
-                        (route.get(i).getY() * multiplyH + 185),
-                        (route.get(i).getX() * multiplyW + 1120),
+                        (route.get(i).getY() + xKek) * multiplyH,
+                        (route.get(i).getX() + yKek) * multiplyW + delta,
                         30, p);
 
                 p.setColor(res.getColor(R.color.colorPrimary));
@@ -98,16 +104,18 @@ public class NavigatorViewModel extends AndroidViewModel {
             } else if (route.get(i).getStair()) {
                 p.setColor(res.getColor(R.color.colorMiddle));
                 canvas.drawCircle(
-                        (route.get(i).getY() * multiplyH + 185),
-                        (route.get(i).getX() * multiplyW + 1120),
+                        (route.get(i).getY() + xKek) * multiplyH,
+                        (route.get(i).getX() + yKek) * multiplyW + delta,
                         20, p);
                 p.setColor(res.getColor(R.color.colorPrimary));
 
             } else {
-                canvas.drawCircle(
-                        (route.get(i).getY() * multiplyH + 185),
-                        (route.get(i).getX() * multiplyW + 1120),
-                        20, p);
+                float oldX = route.get(i).getX();
+                float oldY = route.get(i).getY();
+
+                float x = (oldY + xKek) * multiplyH;
+                float y = (oldX + yKek) * multiplyW;
+                canvas.drawCircle(x, y + delta, 20, p);
             }
         }
 
