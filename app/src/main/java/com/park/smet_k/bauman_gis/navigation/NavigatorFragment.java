@@ -1,9 +1,7 @@
 package com.park.smet_k.bauman_gis.navigation;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.model.GoRoute;
 
-import java.util.List;
 import java.util.Objects;
 
 public class NavigatorFragment extends Fragment {
@@ -85,8 +82,8 @@ public class NavigatorFragment extends Fragment {
             }
 
             if (!goRoute.getPoints().isEmpty()) {
-                List<Pair<Bitmap, Integer>> route = mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
-                toggleState(route);
+//                List<Pair<Bitmap, Integer>> route = mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
+                toggleState(goRoute);
             }
         };
 
@@ -111,7 +108,7 @@ public class NavigatorFragment extends Fragment {
 
 
         // TODO: delete
-        mNavigatorViewModel.find("TP", "s_2");
+//        mNavigatorViewModel.find("TP", "51");
 
         startNewActivityBtn.setOnClickListener(v -> {
 
@@ -189,12 +186,12 @@ public class NavigatorFragment extends Fragment {
 
     }
 
-    private void toggleState(List<Pair<Bitmap, Integer>> images) {
+    private void toggleState(GoRoute route) {
         FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         Fragment bottom = getActivity().getSupportFragmentManager().findFragmentById(R.id.TopFrame);
 
-        RouteFragment routeFragment = RouteFragment.newInstance(images);
+        RouteFragment routeFragment = RouteFragment.newInstance(route);
 
         if (bottom != null && bottom.isAdded()) {
             transaction.remove(bottom);

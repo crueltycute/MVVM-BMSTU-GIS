@@ -36,6 +36,25 @@ public class NewsRepository {
         mApi = ApiRepository.from(mContext).getAPI();
     }
 
+    private static List<News> transform(List<NewsModel> modelList) {
+        List<News> res = new ArrayList<>();
+
+        for (NewsModel newsModel : modelList) {
+            try {
+                News news = map(newsModel);
+                res.add(0, news);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return res;
+    }
+
+    private static News map(NewsModel model) throws ParseException {
+        return new News(model.getTitle(), model.getPayload());
+    }
+
     public LiveData<List<News>> getNews() {
         return mNews;
     }
@@ -54,24 +73,5 @@ public class NewsRepository {
                 Log.e("news repository", "failed to load", t);
             }
         });
-    }
-
-    private static List<News> transform(List<NewsModel> modelList) {
-        List<News> res = new ArrayList<>();
-
-        for (NewsModel newsModel : modelList) {
-            try {
-                News news = map(newsModel);
-                res.add(0, news);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return res;
-    }
-
-    private static News map(NewsModel model) throws ParseException {
-        return new News(model.getTitle(), model.getPayload());
     }
 }

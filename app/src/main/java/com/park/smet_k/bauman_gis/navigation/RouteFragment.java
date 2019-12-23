@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +12,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.park.smet_k.bauman_gis.R;
+import com.park.smet_k.bauman_gis.model.GoPoint;
+import com.park.smet_k.bauman_gis.model.GoRoute;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RouteFragment extends Fragment {
+    private NavigatorViewModel mNavigatorViewModel;
+
     // просчет маршрута при создании фрагмента
     String LOG_TAG = "RouteFragment";
     ArrayList<Integer> route;
@@ -37,7 +42,16 @@ public class RouteFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        pathList = bundle.getParcelable("kek");
+        GoRoute goRoute = (GoRoute) bundle.getSerializable("kek");
+
+        assert goRoute != null;
+
+        List<GoPoint> points = goRoute.getPoints();
+
+        mNavigatorViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
+                .get(NavigatorViewModel.class);
+
+        pathList = mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
     }
 
     @Nullable
@@ -47,11 +61,10 @@ public class RouteFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_blue, container, false);
     }
 
-    public static RouteFragment newInstance(List<Pair<Bitmap, Integer>> images) {
+    public static RouteFragment newInstance(GoRoute route) {
         Bundle args = new Bundle();
 
-        // FIXME придумать, как передавать через интент
-        args.putParcelable("kek", (Parcelable) images);
+        args.putSerializable("kek", route);
 
         RouteFragment fragment = new RouteFragment();
         fragment.setArguments(args);
