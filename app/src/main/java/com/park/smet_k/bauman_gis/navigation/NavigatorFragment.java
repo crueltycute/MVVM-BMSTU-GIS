@@ -1,5 +1,8 @@
 package com.park.smet_k.bauman_gis.navigation;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,17 +14,25 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.park.smet_k.bauman_gis.App;
 import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.database.DBWorker;
 import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.model.GoRoute;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class NavigatorFragment extends Fragment {
     private NavigatorViewModel mNavigatorViewModel;
@@ -54,9 +65,12 @@ public class NavigatorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle("Navigation");
 
+        Repository.init(getActivity());
+
         return inflater.inflate(R.layout.activity_navigator, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -166,7 +180,7 @@ public class NavigatorFragment extends Fragment {
 //                public void onFailure(@NonNull Call<RouteModel> call, Throwable t) {
 //                    Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
 //                    Toast toast = Toast.makeText(getContext(),
-//                            "Server Error",
+//                            "Мы сломали :(",
 //                            Toast.LENGTH_SHORT);
 //                    toast.show();
 //                    t.printStackTrace();
@@ -183,7 +197,6 @@ public class NavigatorFragment extends Fragment {
 
 //            toggleState();
         });
-
     }
 
     private void toggleState(GoRoute route) {
