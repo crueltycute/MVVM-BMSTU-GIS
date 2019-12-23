@@ -17,13 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.park.smet_k.bauman_gis.App;
 import com.park.smet_k.bauman_gis.R;
-import com.park.smet_k.bauman_gis.main.MainActivity;
 import com.park.smet_k.bauman_gis.database.DBWorker;
-import com.park.smet_k.bauman_gis.model.RouteModel;
-import com.park.smet_k.bauman_gis.model.RoutePoint;
+import com.park.smet_k.bauman_gis.main.MainActivity;
+import com.park.smet_k.bauman_gis.model.GoRoute;
 
 import java.util.Objects;
 
@@ -34,6 +35,9 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class NavigatorFragment extends Fragment {
+    private NavigatorViewModel mNavigatorViewModel;
+
+
     private final String LOG_TAG = "NavigatorFragment";
     private final static String KEY_IS_FIRST = "is_first";
     private final static String KEY_OAUTH = "oauth";
@@ -78,39 +82,57 @@ public class NavigatorFragment extends Fragment {
                 .commit();
 
         // создаем объект для создания и управления версиями БД
-        dbHelper = new DBWorker(getActivity());
+//        dbHelper = new DBWorker(getActivity());
 
-        startNewActivityBtn.setOnClickListener(v -> {
-            EditText check_edit = view.findViewById(R.id.InputFrom);
-            cur_from = check_edit.getText().toString();
+        Observer<GoRoute> observer = goRoute -> {
+            Log.d(LOG_TAG, "here");
+            Toast toast = Toast.makeText(getContext(),
+                    "found",
+                    Toast.LENGTH_SHORT);
+            toast.show();
 
-            if (!Repository.getInstance().PointsMap.containsKey(cur_from)) {
-                check_edit.setError("Unknown value");
-                check_edit.requestFocus();
-                Toast toast = Toast.makeText(getContext(),
-                        "Unknown first point",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+            if (goRoute.getPoints() == null) {
                 return;
             }
+
+            if (!goRoute.getPoints().isEmpty()) {
+//                List<Pair<Bitmap, Integer>> route = mNavigatorViewModel.buildBitMaps(getResources(), goRoute.getPoints());
+                toggleState(goRoute);
+            }
+        };
+
+        Observer<String> observerError = error -> {
+            Log.d(LOG_TAG, error);
+            Toast toast = Toast.makeText(getContext(),
+                    error,
+                    Toast.LENGTH_SHORT);
+            toast.show();
+        };
+
+        mNavigatorViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()))
+                .get(NavigatorViewModel.class);
+
+        mNavigatorViewModel
+                .getRoute()
+                .observe(getViewLifecycleOwner(), observer);
+
+        mNavigatorViewModel
+                .getError()
+                .observe(getViewLifecycleOwner(), observerError);
+
+
+        // TODO: delete
+//        mNavigatorViewModel.find("TP", "51");
+
+        startNewActivityBtn.setOnClickListener(v -> {
+
+            EditText check_edit = view.findViewById(R.id.InputFrom);
+            cur_from = check_edit.getText().toString();
 
             check_edit = view.findViewById(R.id.InputTo);
             cur_to = check_edit.getText().toString();
 
-            if (!Repository.getInstance().PointsMap.containsKey(cur_to)) {
-                check_edit.setError("Unknown value");
-                check_edit.requestFocus();
-                Toast toast = Toast.makeText(getContext(),
-                        "Unknown last point",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                return;
-            }
-
-            RoutePoint pointFrom = Repository.getInstance().PointsMap.get(cur_from);
-            RoutePoint pointTo = Repository.getInstance().PointsMap.get(cur_to);
-
-            if (pointFrom.getName().equals(pointTo.getName())) {
+            if (cur_from.equals(cur_to)) {
                 Toast toast = Toast.makeText(getContext(),
                         "points are same",
                         Toast.LENGTH_SHORT);
@@ -118,73 +140,71 @@ public class NavigatorFragment extends Fragment {
                 return;
             }
 
-            if (Repository.getInstance().StairsGraph == null || Repository.getInstance().StairsGraph.getGraphSize() == 0) {
-                Toast toast = Toast.makeText(getContext(),
-                        "stairs graph empty",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                return;
-            }
+            mNavigatorViewModel.find(cur_from, cur_to);
 
-            if (Repository.getInstance().StairsArray == null || Repository.getInstance().StairsArray.size() == 0) {
-                Toast toast = Toast.makeText(getContext(),
-                        "stairs array empty",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                return;
-            }
+            // TODO(nmerk): show loader
 
-            // заносим данные в БД
-            Repository.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
+//            if (Repository.getInstance().StairsGraph == null || Repository.getInstance().StairsGraph.getGraphSize() == 0) {
+//                Toast toast = Toast.makeText(getContext(),
+//                        "stairs graph empty",
+//                        Toast.LENGTH_SHORT);
+//                toast.show();
+//                return;
+//            }
+//
+//            if (Repository.getInstance().StairsArray == null || Repository.getInstance().StairsArray.size() == 0) {
+//                Toast toast = Toast.makeText(getContext(),
+//                        "stairs array empty",
+//                        Toast.LENGTH_SHORT);
+//                toast.show();
+//                return;
+//            }
 
-            // пушим на сервер
-            Callback<RouteModel> callback = new Callback<RouteModel>() {
-
-                @Override
-                public void onResponse(@NonNull Call<RouteModel> call, Response<RouteModel> response) {
-                    RouteModel body = response.body();
-                    if (body != null) {
-                        Log.d(LOG_TAG, "--- Login OK body != null ---");
-                    } else {
-                        Log.d(LOG_TAG, "--- Login OK body == null ---");
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<RouteModel> call, Throwable t) {
-                    Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
-                    Toast toast = Toast.makeText(getContext(),
-                            "Server Error",
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                    t.printStackTrace();
-                }
-            };
-
-            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
-
-            Integer userId = preferences.getInt(KEY_OAUTH, -1);
-            // avoid static error
-            assert pointFrom != null;
-            assert pointTo != null;
-            Repository.getInstance().bgisApi.pushRoute(new RouteModel(userId, pointFrom.getName(), pointTo.getName())).enqueue(callback);
-
-            toggleState();
+//            // заносим данные в БД
+//            Repository.getInstance().dbWorker.insert(dbHelper, cur_from, cur_to);
+//
+//            // пушим на сервер
+//            Callback<RouteModel> callback = new Callback<RouteModel>() {
+//
+//                @Override
+//                public void onResponse(@NonNull Call<RouteModel> call, Response<RouteModel> response) {
+//                    RouteModel body = response.body();
+//                    if (body != null) {
+//                        Log.d(LOG_TAG, "--- Login OK body != null ---");
+//                    } else {
+//                        Log.d(LOG_TAG, "--- Login OK body == null ---");
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(@NonNull Call<RouteModel> call, Throwable t) {
+//                    Log.d(LOG_TAG, "--- Login LOGIN_ERROR onFailure ---");
 //                    Toast toast = Toast.makeText(getContext(),
 //                            "Мы сломали :(",
 //                            Toast.LENGTH_SHORT);
 //                    toast.show();
-//                    return;
+//                    t.printStackTrace();
+//                }
+//            };
+//
+//            SharedPreferences preferences = getContext().getSharedPreferences(STORAGE_NAME, MODE_PRIVATE);
+//
+//            Integer userId = preferences.getInt(KEY_OAUTH, -1);
+//            // avoid static error
+//            assert pointFrom != null;
+//            assert pointTo != null;
+//            Repository.getInstance().bgisApi.pushRoute(new RouteModel(userId, pointFrom.getName(), pointTo.getName())).enqueue(callback);
+
+//            toggleState();
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void toggleState() {
+    private void toggleState(GoRoute route) {
         FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         Fragment bottom = getActivity().getSupportFragmentManager().findFragmentById(R.id.TopFrame);
 
-        RouteFragment routeFragment = RouteFragment.newInstance(cur_from, cur_to);
+        RouteFragment routeFragment = RouteFragment.newInstance(route);
 
         if (bottom != null && bottom.isAdded()) {
             transaction.remove(bottom);

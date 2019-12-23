@@ -75,7 +75,9 @@ public class RoutesListFragment extends Fragment {
         Bundle bundle = new Bundle();
         Fragment bottom = getFragmentManager().findFragmentById(R.id.TopFrame);
 
-        RouteFragment routeFragment = RouteFragment.newInstance(i.getFrom(), i.getTo());
+        // FIXME передавать картинки
+//        RouteFragment routeFragment = RouteFragment.newInstance(i.getFrom(), i.getTo());
+        RouteFragment routeFragment = new RouteFragment();
 
         // выставляю значения в эдит текст в нижнем баре
         EditText editText = Objects.requireNonNull(getActivity()).findViewById(R.id.InputFrom);
@@ -94,6 +96,7 @@ public class RoutesListFragment extends Fragment {
 
 
     final String LOG_TAG = "RoutesList";
+
     @Override
     public void onResume() {
         Log.d(LOG_TAG, "=== ON RESUME === ");

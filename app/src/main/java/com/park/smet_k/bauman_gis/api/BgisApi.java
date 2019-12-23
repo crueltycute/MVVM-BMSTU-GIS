@@ -53,3 +53,4 @@ public interface BgisApi {
     @GET("/news")
     Call<List<NewsModel>> getNews();
 }
+

@@ -23,12 +23,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    private final String LOG_TAG = "NewsList";
     private NewsViewModel mNewsViewModel;
-
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-
-    private final String LOG_TAG = "NewsList";
 
     public static Fragment newInstance() {
         Bundle args = new Bundle();
@@ -51,7 +49,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         View view = inflater.inflate(R.layout.server_news_fragment, container, false);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 

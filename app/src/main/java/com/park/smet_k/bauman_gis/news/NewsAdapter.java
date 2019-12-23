@@ -14,16 +14,14 @@ import com.park.smet_k.bauman_gis.R;
 import com.park.smet_k.bauman_gis.model.News;
 import com.park.smet_k.bauman_gis.utils.OnItemClickListner;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerViewHolder> {
     private final LayoutInflater layoutInflater;
-    private List<News> data;
     private final OnItemClickListner<News> onItemClickListener;
+    private List<News> data;
 
     public NewsAdapter(Context context, OnItemClickListner<News> onItemClickListener) {
         layoutInflater = LayoutInflater.from(context);
@@ -61,7 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsRecyclerVi
     final static class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mBackground;
         private final TextView mTitle;
-//        private final TextView mTime;
+        //        private final TextView mTime;
         private final TextView mPayload;
 
         NewsRecyclerViewHolder(View itemView) {
